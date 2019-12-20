@@ -11,13 +11,14 @@ namespace SuperSocketRRPCServer
     public class MySession : AppSession<MySession, RequestBaseInfo>
     {
         public MyServer MyAppServer => (MyServer)AppServer;
+
         /// <summary>
-        /// 执行事件中的方法
+        /// 远程任务队列
         /// </summary>
-        public Dictionary<Guid,Action<string>> MethodIDs { get; set; }
+        public RemoteCallQueue RemoteCallQueue { get; private set; }
         public MySession()
         {
-            MethodIDs = new Dictionary<Guid, Action<string>>();
+            RemoteCallQueue = new RemoteCallQueue(10);
         }
         protected override void OnSessionStarted()
         {
@@ -27,6 +28,7 @@ namespace SuperSocketRRPCServer
         protected override void OnInit()
         {
             base.OnInit();
+            Console.WriteLine("新的连接："+SessionID);
         }
 
         protected override void HandleUnknownRequest(RequestBaseInfo requestInfo)
@@ -41,6 +43,9 @@ namespace SuperSocketRRPCServer
 
         protected override void OnSessionClosed(CloseReason reason)
         {
+            //释放所有的任务
+            RemoteCallQueue.ErrorEmpty("远程对象被关闭 原因:"+reason);
+
             base.OnSessionClosed(reason);
         }
         public override void Send(string message)

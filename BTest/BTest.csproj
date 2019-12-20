@@ -57,15 +57,6 @@
     <Reference Include="SuperSocket.SocketService, Version=1.6.6.1, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
       <HintPath>..\packages\SuperSocket.Engine.1.6.6.1\lib\net45\SuperSocket.SocketService.exe</HintPath>
     </Reference>
-    <Reference Include="SuperSocketRRPCAOPContainer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SuperSocketRRPCAOPContainer.1.0.0\lib\netstandard2.0\SuperSocketRRPCAOPContainer.dll</HintPath>
-    </Reference>
-    <Reference Include="SuperSocketRRPCServer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SuperSocketRRPCServer.1.0.0\lib\netstandard2.0\SuperSocketRRPCServer.dll</HintPath>
-    </Reference>
-    <Reference Include="SuperSocketRRPCUnity, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SuperSocketRRPCUnity.1.0.0\lib\netstandard2.0\SuperSocketRRPCUnity.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Configuration.ConfigurationManager, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -117,6 +108,28 @@
     <None Include="packages.config" />
     <None Include="supersocket.cmd" />
     <None Include="supersocket.sh" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\supersocketTest\supersocketTest\IRPCService\IRPCService.csproj">
+      <Project>{608d7680-ce68-41fa-ae76-35417a1a20b1}</Project>
+      <Name>IRPCService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\supersocketTest\supersocketTest\RPCService\RPCService.csproj">
+      <Project>{7a7255cb-b0d4-4f2c-8d98-3024065ba24b}</Project>
+      <Name>RPCService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SuperSocketRRPCAOPContainer\SuperSocketRRPCAOPContainer.csproj">
+      <Project>{152d0409-ebc9-4def-b14e-a862e04238f7}</Project>
+      <Name>SuperSocketRRPCAOPContainer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SuperSocketRRPCServer\SuperSocketRRPCServer.csproj">
+      <Project>{7c829395-4451-4952-8619-f14218c08b96}</Project>
+      <Name>SuperSocketRRPCServer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SuperSocketRRPCUnity\SuperSocketRRPCUnity.csproj">
+      <Project>{c591474a-0faa-44a5-961f-ab361db1451b}</Project>
+      <Name>SuperSocketRRPCUnity</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

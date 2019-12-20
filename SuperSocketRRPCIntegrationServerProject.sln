@@ -3,13 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29609.76
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperSocketRRPCServer", "SuperSocketRRPCServer\SuperSocketRRPCServer.csproj", "{7C829395-4451-4952-8619-F14218C08B96}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperSocketRRPCServer", "SuperSocketRRPCServer\SuperSocketRRPCServer.csproj", "{7C829395-4451-4952-8619-F14218C08B96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperSocketRRPCUnity", "SuperSocketRRPCUnity\SuperSocketRRPCUnity.csproj", "{C591474A-0FAA-44A5-961F-AB361DB1451B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperSocketRRPCUnity", "SuperSocketRRPCUnity\SuperSocketRRPCUnity.csproj", "{C591474A-0FAA-44A5-961F-AB361DB1451B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BTest", "BTest\BTest.csproj", "{0451BF88-B0D8-43F5-BA1F-07978D9BB3AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperSocketRRPCAOPContainer", "SuperSocketRRPCAOPContainer\SuperSocketRRPCAOPContainer.csproj", "{152D0409-EBC9-4DEF-B14E-A862E04238F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperSocketRRPCAOPContainer", "SuperSocketRRPCAOPContainer\SuperSocketRRPCAOPContainer.csproj", "{152D0409-EBC9-4DEF-B14E-A862E04238F7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{E8C69FBE-35B4-4BE2-8D9B-D04C748E27AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IRPCService", "..\..\supersocketTest\supersocketTest\IRPCService\IRPCService.csproj", "{608D7680-CE68-41FA-AE76-35417A1A20B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPCService", "..\..\supersocketTest\supersocketTest\RPCService\RPCService.csproj", "{7A7255CB-B0D4-4F2C-8D98-3024065BA24B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,9 +39,21 @@ Global
 		{152D0409-EBC9-4DEF-B14E-A862E04238F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{152D0409-EBC9-4DEF-B14E-A862E04238F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{152D0409-EBC9-4DEF-B14E-A862E04238F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{608D7680-CE68-41FA-AE76-35417A1A20B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{608D7680-CE68-41FA-AE76-35417A1A20B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{608D7680-CE68-41FA-AE76-35417A1A20B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{608D7680-CE68-41FA-AE76-35417A1A20B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A7255CB-B0D4-4F2C-8D98-3024065BA24B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A7255CB-B0D4-4F2C-8D98-3024065BA24B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A7255CB-B0D4-4F2C-8D98-3024065BA24B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A7255CB-B0D4-4F2C-8D98-3024065BA24B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{608D7680-CE68-41FA-AE76-35417A1A20B1} = {E8C69FBE-35B4-4BE2-8D9B-D04C748E27AD}
+		{7A7255CB-B0D4-4F2C-8D98-3024065BA24B} = {E8C69FBE-35B4-4BE2-8D9B-D04C748E27AD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {95342B9B-E711-44E2-A7A8-F82D62BDAA9F}

@@ -19,31 +19,54 @@ namespace SuperSocketRRPCServer
     {
         public override void ExecuteCommand(MySession session, RequestBaseInfo requestInfo)
         {
-           
-           var info = JsonConvert.DeserializeObject<RequestExecutiveInformation>(requestInfo.bodyMeg);
-            if (info.ReturnValue != null && session.MethodIDs.TryGetValue(info.ID, out var action))
+
+            RequestExecutiveInformation info = null;
+            try
             {
-                action.Invoke(info.ReturnValue);
-                //得到执行结果
+                info = JsonConvert.DeserializeObject<RequestExecutiveInformation>(requestInfo.bodyMeg);
             }
-            else {
+            catch (Exception e)
+            {
+                Console.WriteLine("解析失败" + requestInfo.bodyMeg);
+                return;
+            }
+            if (info.ReturnValue != null && session.RemoteCallQueue.GetTaskIDAndSuccess(info.ID, info.ReturnValue))
+            {
+                //处理完成
+            }
+            else if (info.ReturnValue != null)
+            {
+                Console.WriteLine($"收到一个意外的请求 它有结果但是没有找到该任务的信息 ID:{info.ID} FullName:{info.FullName} Return:{info.ReturnValue} 来自于:{session.RemoteEndPoint.ToString()}");
+            }
+            else
+            {
                 //接收RPC的请求
-                var type = session.MyAppServer.container.GetService(info.FullName, out object executionObj);
-                var methodType = type.GetMethod(info.MethodName);
-                List<object> paraList = new List<object>();
-                for (int i = 0; i < info.Arguments.Count; i++)
-                {
-                    var paras = methodType.GetParameters();
-                    paraList.Add(JsonConvert.DeserializeObject(info.Arguments[i], paras[i].ParameterType));
-                }
-                info.ReturnValue =JsonConvert.SerializeObject(methodType.Invoke(executionObj, paraList.ToArray()));
-                var msg = JsonConvert.SerializeObject(info);
-                session.Send(msg);
+                AsyncImplementFunc(info, session, requestInfo);
 
             }
             
             //session.MethodIDs
             Console.WriteLine("Client:"+requestInfo.bodyMeg);
+        }
+        /// <summary>
+        /// 执行RPC的调用
+        /// </summary>
+        /// <param name="session"></param>
+        /// <param name="requestInfo"></param>
+        /// <returns></returns>
+          async  Task AsyncImplementFunc(RequestExecutiveInformation info,MySession session, RequestBaseInfo requestInfo) {
+            await Task.Yield();
+            var type = session.MyAppServer.container.GetService(info.FullName, out object executionObj);
+            var methodType = type.GetMethod(info.MethodName);
+            List<object> paraList = new List<object>();
+            for (int i = 0; i < info.Arguments.Count; i++)
+            {
+                var paras = methodType.GetParameters();
+                paraList.Add(JsonConvert.DeserializeObject(info.Arguments[i], paras[i].ParameterType));
+            }
+            info.ReturnValue = JsonConvert.SerializeObject(methodType.Invoke(executionObj, paraList.ToArray()));
+            var msg = JsonConvert.SerializeObject(info);
+            session.Send(msg);
         }
     }
 }

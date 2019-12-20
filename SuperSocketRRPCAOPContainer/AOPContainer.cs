@@ -8,13 +8,13 @@ using Newtonsoft.Json;
 using System.Threading;
 using SuperSocketRRPCServer;
 using SuperSocketRRPCServer.CommunicationEntity;
+using SuperSocketRRPCServer.Entity;
 
 namespace SuperSocketRRPCAOPContainer
 {
 
     public class AOPContainer
     {
-        private string returnValueString;
         ProxyGenerator generator { get; set; }
         public AOPContainer()
         {
@@ -30,38 +30,50 @@ namespace SuperSocketRRPCAOPContainer
         /// <returns></returns>
         public T GetServices<T>(MySession session) where T:class
         {
-            EventWaitHandle _waitHandle = new AutoResetEvent(false);
             return generator.CreateInterfaceProxyWithoutTarget<T>(new AOPRPCInterceptor((invocation) => {
-                return ImplementFunc(invocation, session, _waitHandle);
+                return ImplementFunc(invocation, session);
             }));
         }
-        Object ImplementFunc(IInvocation invocation, MySession session, EventWaitHandle waitHandle) {
+
+        public object ImplementFunc(IInvocation invocation, MySession session)
+        {
             RequestExecutiveInformation information = new RequestExecutiveInformation()
             {
-                FullName=invocation.Method.DeclaringType.FullName,
-                ID=Guid.NewGuid(),
-                MethodName=invocation.Method.Name,
-                Arguments=invocation.Arguments.Select(d => JsonConvert.SerializeObject(d)).ToList()
+                FullName = invocation.Method.DeclaringType.FullName,
+                ID = Guid.NewGuid(),
+                MethodName = invocation.Method.Name,
+                Arguments = invocation.Arguments.Select(d => JsonConvert.SerializeObject(d)).ToList()
             };
-            session.MethodIDs.Add(information.ID, (reMsg) => {
-                returnValueString = reMsg;
-                waitHandle.Set();
-            });
+
+            var result = session.RemoteCallQueue.AddTaskQueue(information.ID, information);
             var msg = JsonConvert.SerializeObject(information);
-            session.Send(msg);
-            waitHandle.WaitOne();
-            session.MethodIDs.Remove(information.ID);
+            try
+            {
+                session.Send(msg);
+            }
+            catch (Exception e)
+            {
+                result.ProcessingFuncInvoke(ReceiveMessageState.Error, e.Message);
+            }
 
-            var obj = JsonConvert.DeserializeObject(returnValueString, invocation.Method.ReturnType);
-            return obj;
-        }
-
-        /// <summary>
-        /// 得到调用结果后
-        /// </summary>
-        /// <param name="o"></param>
-        public void ReceiveReturnValue(string msg) {
-           
+            result.WaitHandle.WaitOne();
+            switch (result.State)
+            {
+                case ReceiveMessageState.Wait:
+                    throw new Exception("任务出现错误，目前正在等待状态，却通过了健康检查");
+                case ReceiveMessageState.Success:
+                    var obj = JsonConvert.DeserializeObject(result.ReturnValue, invocation.Method.ReturnType);
+                    return obj;
+                case ReceiveMessageState.Overtime:
+                    throw new Exception("任务超时：" + result.ReturnValue);
+                case ReceiveMessageState.Error:
+                    throw new Exception("任务出现了异常：" + result.ReturnValue);
+                case ReceiveMessageState.Other:
+                    throw new Exception("不存在的任务");
+                default:
+                    break;
+            }
+            throw new Exception("任务出现了异常：它没有按规矩走");
         }
     }
    

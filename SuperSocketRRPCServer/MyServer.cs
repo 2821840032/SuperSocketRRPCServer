@@ -28,9 +28,6 @@ namespace SuperSocketRRPCServer
             container = new UnityInIt();
             SuperMain.WholeUnitys.Add(container);
             MyServerList.Add(this);
-
-            this.NewSessionConnected += MyServer_NewSessionConnected;
-            this.SessionClosed += MyServer_SessionClosed;
         }
 
         protected override void OnStarted()
@@ -38,17 +35,6 @@ namespace SuperSocketRRPCServer
             Console.WriteLine(string.Format("Socket启动成功：{0}:{1}", this.Config.Ip, this.Config.Port));
             Logger.Info("启动成功");
             //启动成功
-        }
-
-        void MyServer_NewSessionConnected(MySession session)
-        {
-            //连接成功
-            Console.WriteLine("连接加入："+session.SessionID);
-        }
-
-        void MyServer_SessionClosed(MySession session, CloseReason value)
-        {
-            Console.WriteLine("连接关闭：" + session.SessionID);
         }
     }
 }
