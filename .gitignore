@@ -3,3 +3,11 @@
 ################################################################################
 
 /.vs/SuperSocketRRPCIntegrationServerProject/v16/Server/sqlite3
+/BTest/bin/Debug
+/BTest/obj/Debug
+/SuperSocketRRPCAOPContainer/bin/Debug
+/SuperSocketRRPCAOPContainer/obj
+/SuperSocketRRPCServer/bin/Debug
+/SuperSocketRRPCServer/obj
+/SuperSocketRRPCUnity/bin/Debug
+/SuperSocketRRPCUnity/obj

@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Company>Ming</Company>
+    <Product>Ming</Product>
+    <Description>SuperSocket 封装的双向RPC通讯组件 很简陋 这是服务端的容器</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Unity" Version="5.11.2" />
+  </ItemGroup>
+
+</Project>
