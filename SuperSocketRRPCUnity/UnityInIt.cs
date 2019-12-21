@@ -13,13 +13,32 @@ namespace SuperSocketRRPCUnity
     /// <summary>
     /// 初始化一个容器
     /// </summary>
-    public class UnityInIt
+    public class UnityInIt<Session,Info, RequestInfo>
     {
+
+        #region 反射设置值的对象列表
 
         /// <summary>
         ///  BaseProvideServices FulleName 
         /// </summary>
-        string BaseProvideServicesFullName { get; set; }
+        public string BaseProvideServicesFullName { get; private set; }
+
+        /// <summary>
+        /// Socket PropertyInfo
+        /// </summary>
+        public PropertyInfo socketPropertyInfo { get; private set; }
+
+        /// <summary>
+        /// info PropertyInfo
+        /// </summary>
+        public PropertyInfo infoPropertyInfo { get; private set; }
+
+        /// <summary>
+        /// requestInfo PropertyInfo
+        /// </summary>
+        public PropertyInfo requestInfoPropertyInfo { get; private set; }
+
+        #endregion
 
         /// <summary>
         /// 容器对象 接口 FullName  实现类Type 实现类父对象是否为指定FullName
@@ -33,11 +52,20 @@ namespace SuperSocketRRPCUnity
         /// 初始化容器对象
         /// </summary>
         /// <param name="BaseProvideServicesFullName">需要监听的对象值</param>
-        public UnityInIt(string BaseProvideServicesFullName)
+        /// <param name="socketPropertyInfo">连接对象属性Type</param>
+        /// <param name="infoPropertyInfo">请求信息对象属性Type</param>
+        /// <param name="requestInfoPropertyInfo">基础请求信息对象属性</param>
+        public UnityInIt(string BaseProvideServicesFullName, PropertyInfo socketPropertyInfo, PropertyInfo infoPropertyInfo, PropertyInfo requestInfoPropertyInfo)
         {
             this.BaseProvideServicesFullName = BaseProvideServicesFullName;
             unityContainer = new UnityContainer();
             ContainerObjList = new Dictionary<string, Tuple<Type, bool>>();
+
+            this.socketPropertyInfo = socketPropertyInfo;
+            this.infoPropertyInfo = infoPropertyInfo;
+            this.requestInfoPropertyInfo = requestInfoPropertyInfo;
+
+
 
         }
         /// <summary>
@@ -73,20 +101,27 @@ namespace SuperSocketRRPCUnity
         /// <param name="fullName">接口的FullName</param>
         /// <param name="obj">返回的对象</param>
         /// <param name="InterfaceType">接口类型</param>
-        /// <param name="isMatchingFullName">实现对象是否为FullName</param>
+        /// <param name="session">连接对象</param>
+        /// <param name="info">请求信息</param>
+        /// <param name="requestInfo">基础请求信息</param>
         /// <returns></returns>
-        public bool GetService(string fullName,out Object obj,out Type InterfaceType,out bool isMatchingFullName)
+        public bool GetService(string fullName, Session session, Info info, RequestInfo requestInfo, out Object obj,out Type InterfaceType)
         {
             if (ContainerObjList.TryGetValue(fullName, out var value))
             {
                 obj = unityContainer.Resolve(value.Item1);
                 InterfaceType = value.Item1;
-                isMatchingFullName = value.Item2;
+                if (value.Item2)
+                {
+                    //表示可以注入某些属性
+                    socketPropertyInfo.SetValue(obj, session);
+                    infoPropertyInfo.SetValue(obj, info);
+                   requestInfoPropertyInfo.SetValue(obj, requestInfo);
+                }
                 return true;
             }
             obj = null;
             InterfaceType = null;
-            isMatchingFullName = false;
             return false;
         }
     }

@@ -60,14 +60,8 @@ namespace SuperSocketRRPCServer
         /// <param name="requestInfo">请求基础类</param>
         void ImplementFunc(RequestExecutiveInformation info, RRPCSession session, RequestBaseInfo requestInfo)
         {
-            if (session.RrpcAppServer.container.GetService(info.FullName, out object executionObj, out var iServerType, out bool isMatchingFullName))
+            if (session.RrpcAppServer.container.GetService(info.FullName, session, info, requestInfo,out object executionObj, out var iServerType))
             {
-                if (isMatchingFullName)
-                {
-                    session.RrpcAppServer.socketPropertyInfo.SetValue(executionObj, session);
-                    session.RrpcAppServer.infoPropertyInfo.SetValue(executionObj, info);
-                    session.RrpcAppServer.requestInfoPropertyInfo.SetValue(executionObj, requestInfo);
-                }
                 var methodType = iServerType.GetMethod(info.MethodName);
                 List<object> paraList = new List<object>();
                 for (int i = 0; i < info.Arguments.Count; i++)

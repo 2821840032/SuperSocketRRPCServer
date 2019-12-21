@@ -20,38 +20,12 @@ namespace SuperSocketRRPCServer
         /// <summary>
         /// 容器对象
         /// </summary>
-       public UnityInIt container { get; private set; } 
+       public UnityInIt<RRPCSession, RequestExecutiveInformation, RequestBaseInfo> container { get; private set; } 
 
         /// <summary>
         /// 所有的ServerList服务
         /// </summary> 
         public static List<RRPCServer> MyServerList { get; private set; } = new List<RRPCServer>();
-
-       
-        #region 反射设置值的对象列表
-
-        /// <summary>
-        ///  BaseProvideServices FulleName 
-        /// </summary>
-        public string BaseProvideServicesFullName { get;private set; }
-
-        /// <summary>
-        /// Socket PropertyInfo
-        /// </summary>
-        public PropertyInfo socketPropertyInfo { get; private set; }
-
-        /// <summary>
-        /// info PropertyInfo
-        /// </summary>
-        public PropertyInfo infoPropertyInfo { get; private set; }
-
-        /// <summary>
-        /// requestInfo PropertyInfo
-        /// </summary>
-        public PropertyInfo requestInfoPropertyInfo { get; private set; }
-
-        #endregion
-
 
         /// <summary>
         /// 通过配置文件安装服务从这里启动
@@ -61,14 +35,8 @@ namespace SuperSocketRRPCServer
         {
 
             Type baseProvideServicesType = typeof(BaseProvideServices);
-            BaseProvideServicesFullName = baseProvideServicesType.FullName;
 
-            socketPropertyInfo = baseProvideServicesType.GetProperty("Socket");
-            infoPropertyInfo = baseProvideServicesType.GetProperty("Info");
-            requestInfoPropertyInfo = baseProvideServicesType.GetProperty("RequestInfo");
-
-
-            container = new UnityInIt(BaseProvideServicesFullName);
+            container = new UnityInIt<RRPCSession, RequestExecutiveInformation, RequestBaseInfo>(baseProvideServicesType.FullName,baseProvideServicesType.GetProperty("Socket"), baseProvideServicesType.GetProperty("Info"), baseProvideServicesType.GetProperty("RequestInfo"));
 
             RRPCSetupEntrance.WholeUnitys.Add(container);
             MyServerList.Add(this);

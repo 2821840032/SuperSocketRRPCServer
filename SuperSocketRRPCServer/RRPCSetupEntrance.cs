@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SuperSocket.SocketBase;
 using SuperSocket.SocketEngine;
+using SuperSocketRRPCServer.CommunicationEntity;
 using SuperSocketRRPCUnity;
 
 namespace SuperSocketRRPCServer
@@ -17,14 +18,14 @@ namespace SuperSocketRRPCServer
         /// <summary>
         /// 全局的容器变量列表
         /// </summary>
-        public static List<UnityInIt> WholeUnitys { get; set; }
+        public static List<UnityInIt<RRPCSession, RequestExecutiveInformation, RequestBaseInfo>> WholeUnitys { get; set; }
 
         /// <summary>
         /// RRPC初始化入口
         /// </summary>
         public RRPCSetupEntrance()
         {
-            WholeUnitys = new List<UnityInIt>();
+            WholeUnitys = new List<UnityInIt<RRPCSession, RequestExecutiveInformation, RequestBaseInfo>>();
             SetupAPPServers();
         }
 
