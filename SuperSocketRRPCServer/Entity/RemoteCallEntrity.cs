@@ -40,7 +40,7 @@ namespace SuperSocketRRPCServer.Entity
         /// <summary>
         /// 通讯对象
         /// </summary>
-        public MySession ClientSocket { get; set; }
+        public RRPCSession ClientSocket { get; set; }
 
         /// <summary>
         /// 重试次数
@@ -52,7 +52,15 @@ namespace SuperSocketRRPCServer.Entity
         /// </summary>
         public EventWaitHandle WaitHandle { get; set; }
 
-        public RemoteCallEntrity(Guid id, RequestExecutiveInformation taskInfo, ReceiveMessageState state, DateTime expirationTime, MySession socket) {
+        /// <summary>
+        /// 任务存储
+        /// </summary>
+        /// <param name="id">任务ID</param>
+        /// <param name="taskInfo">任务信息</param>
+        /// <param name="state">状态</param>
+        /// <param name="expirationTime">过期时间</param>
+        /// <param name="socket">连接对象</param>
+        public RemoteCallEntrity(Guid id, RequestExecutiveInformation taskInfo, ReceiveMessageState state, DateTime expirationTime, RRPCSession socket) {
             this.ID = id;
             this.TaskInfo = taskInfo;
             this.State = state;

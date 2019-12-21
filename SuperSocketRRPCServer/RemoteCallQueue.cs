@@ -71,7 +71,7 @@ namespace SuperSocketRRPCServer
         /// <summary>
         /// 添加一个任务到队列
         /// </summary>
-        public RemoteCallEntrity AddTaskQueue(Guid id, RequestExecutiveInformation info, MySession socket) {
+        public RemoteCallEntrity AddTaskQueue(Guid id, RequestExecutiveInformation info, RRPCSession socket) {
             var result = new RemoteCallEntrity(id, info, ReceiveMessageState.Wait, DateTime.Now.AddSeconds(second), socket);
             MethodCallQueues.TryAdd(id,result);
             return result;
@@ -85,9 +85,10 @@ namespace SuperSocketRRPCServer
         {
             foreach (var item in MethodCallQueues.Where(d => DateTime.Now>d.Value.ExpirationTime&& d.Value.State== ReceiveMessageState.Wait).ToList())
             {
-                if (item.Value.RetryCount > MaxRetryCount)
+                if (item.Value.RetryCount < MaxRetryCount)
                 {
                     item.Value.RetryCount++;
+                    item.Value.ExpirationTime = DateTime.Now.AddSeconds(second);
                     //重发
                     RemoteExecutionFuncAsync(item.Value);
                 }
@@ -142,7 +143,7 @@ namespace SuperSocketRRPCServer
         /// 根据任务ID获取任务信息并修改状态为以完成
         /// </summary>
         /// <param name="id">任务ID</param>
-        /// <param name="action">内容</param>
+        /// <param name="rpcResule">内容</param>
         /// <returns>true 找到并修改信息 false未找到</returns>
         public bool GetTaskIDAndSuccess(Guid id,string rpcResule) {
             if (MethodCallQueues.TryGetValue(id, out var value))

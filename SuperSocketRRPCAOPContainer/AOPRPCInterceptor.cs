@@ -8,18 +8,34 @@ using System.Threading.Tasks;
 
 namespace SuperSocketRRPCAOPContainer
 {
+    /// <summary>
+    /// AOP
+    /// </summary>
     public class AOPRPCInterceptor: StandardInterceptor
     {
         Func<IInvocation, object> Implement { get; set; }
+        /// <summary>
+        /// AOP
+        /// </summary>
+        /// <param name="implement"></param>
         public AOPRPCInterceptor(Func<IInvocation, object> implement) {
             this.Implement = implement;
         }
+        /// <summary>
+        /// AOP
+        /// </summary>
+        /// <param name="invocation"></param>
         protected override void PreProceed(IInvocation invocation)
         {
            
             Console.WriteLine(invocation.Method.Name + "执行前,入参：" + string.Join(",", invocation.Arguments));
         }
 
+
+        /// <summary>
+        /// AOP
+        /// </summary>
+        /// <param name="invocation"></param>
         protected override void PerformProceed(IInvocation invocation)
         {
             try
@@ -32,7 +48,10 @@ namespace SuperSocketRRPCAOPContainer
               
             }
         }
-
+        /// <summary>
+        /// 执行后
+        /// </summary>
+        /// <param name="invocation"></param>
         protected override void PostProceed(IInvocation invocation)
         {
             Console.WriteLine(invocation.Method.Name + "执行后，返回值：" + invocation.ReturnValue);

@@ -12,10 +12,15 @@ using SuperSocketRRPCServer.Entity;
 
 namespace SuperSocketRRPCAOPContainer
 {
-
+    /// <summary>
+    /// AOP
+    /// </summary>
     public class AOPContainer
     {
         ProxyGenerator generator { get; set; }
+        /// <summary>
+        /// AOP
+        /// </summary>
         public AOPContainer()
         {
             generator = new ProxyGenerator();
@@ -28,14 +33,19 @@ namespace SuperSocketRRPCAOPContainer
         /// <typeparam name="T">对象</typeparam>
         /// <param name="session">需要通讯的对象</param>
         /// <returns></returns>
-        public T GetServices<T>(MySession session) where T:class
+        public T GetServices<T>(RRPCSession session) where T:class
         {
             return generator.CreateInterfaceProxyWithoutTarget<T>(new AOPRPCInterceptor((invocation) => {
                 return ImplementFunc(invocation, session);
             }));
         }
-
-        public object ImplementFunc(IInvocation invocation, MySession session)
+        /// <summary>
+        /// 执行方法
+        /// </summary>
+        /// <param name="invocation"></param>
+        /// <param name="session"></param>
+        /// <returns></returns>
+        public object ImplementFunc(IInvocation invocation, RRPCSession session)
         {
             RequestExecutiveInformation information = new RequestExecutiveInformation()
             {

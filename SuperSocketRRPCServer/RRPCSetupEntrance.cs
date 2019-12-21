@@ -9,14 +9,20 @@ using SuperSocketRRPCUnity;
 
 namespace SuperSocketRRPCServer
 {
-    public class SuperMain
+    /// <summary>
+    /// RRPC初始化入口
+    /// </summary>
+    public class RRPCSetupEntrance
     {
         /// <summary>
         /// 全局的容器变量列表
         /// </summary>
         public static List<UnityInIt> WholeUnitys { get; set; }
 
-        public SuperMain()
+        /// <summary>
+        /// RRPC初始化入口
+        /// </summary>
+        public RRPCSetupEntrance()
         {
             WholeUnitys = new List<UnityInIt>();
             SetupAPPServers();
