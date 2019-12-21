@@ -3,8 +3,10 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Ming</Authors>
-    <Description>SuperSocket 封装的双向RPC通讯组件 很简陋 这是服务端</Description>
+    <Description>新增任务调度中心</Description>
     <PackageId>SuperSocketRRPCServer</PackageId>
+    <Version>1.0.1</Version>
+    <PackageReleaseNotes>SuperSocket 封装的双向RPC通讯组件 很简陋 这是服务端</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BTest
@@ -19,25 +20,25 @@ namespace BTest
             //socket对象
             SuperMain superMain = new SuperMain();
             superMain.AddServer<IADD, ADD>();
-            
+
+            while (true)
+            {
+                Test(container);
+            }
+
+        }
+        static void Test(AOPContainer container) {
             Console.ReadLine();
             var session = MyServer.MyServerList.FirstOrDefault().GetAllSessions().FirstOrDefault();
             var add = container.GetServices<IADD>(session);
             if (session != null)
             {
-                while (true)
-                {
-                    Console.ReadLine();
-                    ADDTest(session, container);
-                }
-
+                ADDTest(session, container);
             }
             else
             {
                 Console.WriteLine("没有可以发送的对象");
             }
-            Console.ReadLine();
-
         }
 
          static void ADDTest(MySession client, AOPContainer Container)
@@ -60,7 +61,7 @@ namespace BTest
         static void ActionAdd(MySession client, AOPContainer Container)
         {
             var Ra1 = new Random().Next(10000);
-            var Ra2 = new Random().Next(50000);
+            var Ra2 = new Random().Next(10000);
             try
             {
                 var result = Container.GetServices<IADD>(client).ADD(Ra1, Ra2);

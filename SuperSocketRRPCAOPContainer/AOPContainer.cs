@@ -45,17 +45,9 @@ namespace SuperSocketRRPCAOPContainer
                 Arguments = invocation.Arguments.Select(d => JsonConvert.SerializeObject(d)).ToList()
             };
 
-            var result = session.RemoteCallQueue.AddTaskQueue(information.ID, information);
-            var msg = JsonConvert.SerializeObject(information);
-            try
-            {
-                session.Send(msg);
-            }
-            catch (Exception e)
-            {
-                result.ProcessingFuncInvoke(ReceiveMessageState.Error, e.Message);
-            }
+            var result = session.RemoteCallQueue.AddTaskQueue(information.ID, information,session);
 
+            session.RemoteCallQueue.RemoteExecutionFunc(result);
             result.WaitHandle.WaitOne();
             switch (result.State)
             {

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SuperSocketRRPCServer
@@ -48,7 +49,7 @@ namespace SuperSocketRRPCServer
 
             base.OnSessionClosed(reason);
         }
-        public override void Send(string message)
+        public void SendMessage(string message)
         {
             var dataBody = Encoding.UTF8.GetBytes(message);
 

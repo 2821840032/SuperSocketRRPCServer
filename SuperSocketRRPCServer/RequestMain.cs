@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Reflection;
 using SuperSocketRRPCServer.CommunicationEntity;
+using System.Threading;
 
 namespace SuperSocketRRPCServer
 {
@@ -19,7 +20,6 @@ namespace SuperSocketRRPCServer
     {
         public override void ExecuteCommand(MySession session, RequestBaseInfo requestInfo)
         {
-
             RequestExecutiveInformation info = null;
             try
             {
@@ -27,6 +27,7 @@ namespace SuperSocketRRPCServer
             }
             catch (Exception e)
             {
+                session.Logger.Error("解析失败：" + requestInfo.bodyMeg + "EndAddress:" + session.RemoteEndPoint.ToString());
                 Console.WriteLine("解析失败" + requestInfo.bodyMeg);
                 return;
             }
@@ -40,13 +41,8 @@ namespace SuperSocketRRPCServer
             }
             else
             {
-                //接收RPC的请求
-                AsyncImplementFunc(info, session, requestInfo);
-
+                ImplementFunc(info, session, requestInfo);
             }
-            
-            //session.MethodIDs
-            Console.WriteLine("Client:"+requestInfo.bodyMeg);
         }
         /// <summary>
         /// 执行RPC的调用
@@ -54,8 +50,8 @@ namespace SuperSocketRRPCServer
         /// <param name="session"></param>
         /// <param name="requestInfo"></param>
         /// <returns></returns>
-          async  Task AsyncImplementFunc(RequestExecutiveInformation info,MySession session, RequestBaseInfo requestInfo) {
-            await Task.Yield();
+        void ImplementFunc(RequestExecutiveInformation info, MySession session, RequestBaseInfo requestInfo)
+        {
             var type = session.MyAppServer.container.GetService(info.FullName, out object executionObj);
             var methodType = type.GetMethod(info.MethodName);
             List<object> paraList = new List<object>();
