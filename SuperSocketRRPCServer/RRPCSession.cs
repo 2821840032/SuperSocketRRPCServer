@@ -23,12 +23,19 @@ namespace SuperSocketRRPCServer
         /// 远程任务队列
         /// </summary>
         public RemoteCallQueue RemoteCallQueue { get; private set; }
+
+        /// <summary>
+        /// 标识
+        /// </summary>
+        public Dictionary<string, Object> Identifications { get; private set; }
+
         /// <summary>
         /// session
         /// </summary>
         public RRPCSession()
         {
-            RemoteCallQueue = new RemoteCallQueue(10);
+            RemoteCallQueue = new RemoteCallQueue();
+            Identifications = new Dictionary<string, object>();
         }
         /// <summary>
         /// session连接加入
@@ -46,13 +53,15 @@ namespace SuperSocketRRPCServer
             base.OnInit();
             
         }
+        #region 异常
+
         /// <summary>
         /// 未知消息
         /// </summary>
         /// <param name="requestInfo"></param>
         protected override void HandleUnknownRequest(RequestBaseInfo requestInfo)
         {
-            Console.WriteLine("收到未知消息："+requestInfo.bodyMeg);
+            Logger.Error("收到未知消息：" + requestInfo.bodyMeg);
         }
         /// <summary>
         /// 错误信息
@@ -61,6 +70,7 @@ namespace SuperSocketRRPCServer
         protected override void HandleException(Exception e)
         {
 
+            Logger.Error("发送错误：" + e.Message);
         }
         /// <summary>
         /// 连接断开
@@ -74,6 +84,42 @@ namespace SuperSocketRRPCServer
 
             base.OnSessionClosed(reason);
         }
+
+        #endregion
+
+        /// <summary>
+        /// 添加一个标识到session
+        /// </summary>
+        /// <typeparam name="T">标识类型</typeparam>
+        /// <param name="Identification">标识对象</param>
+        /// <param name="name">自定义的key 如果需要存放同种标识类型 你就会需要它</param>
+        public void AddIdentification<T>(T Identification,string name="") where T:class {
+            Identifications.Add(typeof(T).FullName+name, Identification);
+        }
+
+        /// <summary>
+        /// 获取一个标识
+        /// </summary>
+        /// <typeparam name="T">标识类型</typeparam>
+        /// <param name="identification">标识对象</param>
+        /// <param name="name">自定义key</param>
+        /// <returns></returns>
+        public bool GetIdentification<T>(out T identification, string name = "") where T : class
+        {
+            if (Identifications.TryGetValue(typeof(T).FullName + name, out var value))
+            {
+                identification = (T)value;
+                return true;
+            }
+            else
+            {
+                identification = null;
+                return false;
+            }
+           
+        }
+
+
         /// <summary>
         /// 发送消息
         /// </summary>

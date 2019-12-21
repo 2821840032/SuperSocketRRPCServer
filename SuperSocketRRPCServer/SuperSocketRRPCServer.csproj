@@ -3,9 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Ming</Authors>
-    <Description>修改属性注入到unity中</Description>
+    <Description>session新增标识对象</Description>
     <PackageId>SuperSocketRRPCServer</PackageId>
-    <Version>1.0.4</Version>
+    <Version>1.0.6</Version>
     <PackageReleaseNotes>SuperSocket 封装的双向RPC通讯组件 很简陋 这是服务端</PackageReleaseNotes>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
