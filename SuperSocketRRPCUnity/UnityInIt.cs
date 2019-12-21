@@ -60,44 +60,5 @@ namespace SuperSocketRRPCUnity
             }
             throw new Exception($"没有找到{fullName} 键的存在");
         }
-
-        /// <summary>
-        /// 二进制 Copy
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        private static T DeepCopyByReflection<T>(T source) where T:class
-        {
-            if (source == null)
-                return null;
-            Object objectReturn = null;
-            using (MemoryStream stream = new MemoryStream())
-            {
-                try
-                {
-                    BinaryFormatter formatter = new BinaryFormatter();
-                    formatter.Serialize(stream, source);
-                    stream.Position = 0;
-                    objectReturn = formatter.Deserialize(stream);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                }
-            }
-            return (T)objectReturn;
-        }
-        /// <summary>
-        /// Copy unity
-        /// </summary>
-        /// <param name="unity"></param>
-        /// <returns></returns>
-        public static UnityInIt CopyTo(UnityInIt unity) {
-            
-            return DeepCopyByReflection(unity);
-        }
-
-
     }
 }

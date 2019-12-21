@@ -26,12 +26,10 @@ namespace SuperSocketRRPCServer
         /// 启动监听服务
         /// </summary>
         private void SetupAPPServers() {
-            Console.WriteLine("Press any key to start the server!");
-
             var bootstrap = BootstrapFactory.CreateBootstrap();
             if (!bootstrap.Initialize())
             {
-                Console.WriteLine("Failed to initialize!");
+                Console.WriteLine("初始化失败");
                 Console.ReadKey();
                 return;
             }
@@ -42,7 +40,7 @@ namespace SuperSocketRRPCServer
 
             if (result == StartResult.Failed)
             {
-                Console.WriteLine("Failed to start!");
+                Console.WriteLine("程序没有被启动");
                 Console.ReadKey();
                 return;
             }

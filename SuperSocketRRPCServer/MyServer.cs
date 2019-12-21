@@ -16,7 +16,7 @@ namespace SuperSocketRRPCServer
 
         /// <summary>
         /// 所有的ServerList服务
-        /// </summary>
+        /// </summary> 
         public static List<MyServer> MyServerList { get; private set; } = new List<MyServer>();
 
         /// <summary>
