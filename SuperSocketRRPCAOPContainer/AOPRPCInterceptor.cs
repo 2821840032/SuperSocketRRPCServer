@@ -28,7 +28,6 @@ namespace SuperSocketRRPCAOPContainer
         protected override void PreProceed(IInvocation invocation)
         {
            
-            Console.WriteLine(invocation.Method.Name + "执行前,入参：" + string.Join(",", invocation.Arguments));
         }
 
 
@@ -54,7 +53,7 @@ namespace SuperSocketRRPCAOPContainer
         /// <param name="invocation"></param>
         protected override void PostProceed(IInvocation invocation)
         {
-            Console.WriteLine(invocation.Method.Name + "执行后，返回值：" + invocation.ReturnValue);
+
         }
 
         private void HandleException(Exception ex)
