@@ -38,6 +38,13 @@ namespace SuperSocketRRPCUnity
         /// </summary>
         public PropertyInfo requestInfoPropertyInfo { get; private set; }
 
+        /// <summary>
+        /// requestInfo container
+        /// </summary>
+        public PropertyInfo containerPropertyInfo { get; private set; }
+
+        
+
         #endregion
 
         /// <summary>
@@ -48,6 +55,8 @@ namespace SuperSocketRRPCUnity
         /// unity 容器对象对象
         /// </summary>
         public IUnityContainer unityContainer { get; set; }
+
+
         /// <summary>
         /// 初始化容器对象
         /// </summary>
@@ -55,7 +64,8 @@ namespace SuperSocketRRPCUnity
         /// <param name="socketPropertyInfo">连接对象属性Type</param>
         /// <param name="infoPropertyInfo">请求信息对象属性Type</param>
         /// <param name="requestInfoPropertyInfo">基础请求信息对象属性</param>
-        public UnityInIt(string BaseProvideServicesFullName, PropertyInfo socketPropertyInfo, PropertyInfo infoPropertyInfo, PropertyInfo requestInfoPropertyInfo)
+        /// <param name="containerPropertyInfo">容器对象</param>
+        public UnityInIt(string BaseProvideServicesFullName, PropertyInfo socketPropertyInfo, PropertyInfo infoPropertyInfo, PropertyInfo requestInfoPropertyInfo, PropertyInfo containerPropertyInfo)
         {
             this.BaseProvideServicesFullName = BaseProvideServicesFullName;
             unityContainer = new UnityContainer();
@@ -64,6 +74,7 @@ namespace SuperSocketRRPCUnity
             this.socketPropertyInfo = socketPropertyInfo;
             this.infoPropertyInfo = infoPropertyInfo;
             this.requestInfoPropertyInfo = requestInfoPropertyInfo;
+            this.containerPropertyInfo = containerPropertyInfo;
 
 
 
@@ -105,7 +116,7 @@ namespace SuperSocketRRPCUnity
         /// <param name="info">请求信息</param>
         /// <param name="requestInfo">基础请求信息</param>
         /// <returns></returns>
-        public bool GetService(string fullName, Session session, Info info, RequestInfo requestInfo, out Object obj,out Type InterfaceType)
+        public bool GetService(string fullName, Session session, Info info, RequestInfo requestInfo,IUnityContainer container, out Object obj,out Type InterfaceType)
         {
             if (ContainerObjList.TryGetValue(fullName, out var value))
             {
@@ -116,7 +127,8 @@ namespace SuperSocketRRPCUnity
                     //表示可以注入某些属性
                     socketPropertyInfo.SetValue(obj, session);
                     infoPropertyInfo.SetValue(obj, info);
-                   requestInfoPropertyInfo.SetValue(obj, requestInfo);
+                    requestInfoPropertyInfo.SetValue(obj, requestInfo);
+                    this.containerPropertyInfo.SetValue(obj,container);
                 }
                 return true;
             }

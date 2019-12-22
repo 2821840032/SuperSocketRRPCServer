@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
+using Unity;
 namespace SuperSocketRRPCServer.Entity
 {
     /// <summary>
@@ -13,17 +13,22 @@ namespace SuperSocketRRPCServer.Entity
         /// <summary>
         /// 操作连接对象
         /// </summary>
-        public RRPCSession Socket { get; set; }
+        public RRPCSession Socket { get;internal set; }
 
         /// <summary>
         /// 本次任务的信息
         /// </summary>
-        public RequestExecutiveInformation Info { get; set; }
+        public RequestExecutiveInformation Info { get; internal set; }
 
         /// <summary>
         /// 最基础的请求信息
         /// </summary>
-        public RequestBaseInfo RequestInfo { get; set; }
+        public RequestBaseInfo RequestInfo { get; internal set; }
+
+        /// <summary>
+        /// 容器对象
+        /// </summary>
+        public IUnityContainer Container { get; internal set; }
 
     }
 }

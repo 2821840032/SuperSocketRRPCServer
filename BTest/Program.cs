@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-
+using Unity;
 namespace BTest
 {
     class Program
@@ -18,8 +18,11 @@ namespace BTest
             //AOP容器对象
             AOPContainer container = new AOPContainer();
             //socket对象
-            RRPCSetupEntrance superMain = new RRPCSetupEntrance();
-            superMain.AddServer<IADD, ADD>();
+            RRPCSetupEntrance superMain = new RRPCSetupEntrance((unity)=> {
+                unity.RegisterSingleton<IADD,ADD>();
+            },(unity)=> { 
+                unity.AddServer<IADD, ADD>();
+            });
 
             while ("q" != Console.ReadLine())
             {

@@ -4,8 +4,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Company>Ming</Company>
     <Product>Ming</Product>
-    <Description>修改一处小问题</Description>
-    <Version>1.0.4</Version>
+    <Description>新增容器对象注入</Description>
+    <Version>1.0.5</Version>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 

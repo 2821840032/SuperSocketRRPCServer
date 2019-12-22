@@ -80,6 +80,9 @@
       <HintPath>..\packages\System.Security.Principal.Windows.4.7.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
     </Reference>
     <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -87,8 +90,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="Unity.Abstractions, Version=5.11.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.5.11.2\lib\net47\Unity.Abstractions.dll</HintPath>
+    <Reference Include="Unity.Abstractions, Version=5.11.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Abstractions.5.11.3\lib\net47\Unity.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Container, Version=5.11.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.5.11.2\lib\net47\Unity.Container.dll</HintPath>

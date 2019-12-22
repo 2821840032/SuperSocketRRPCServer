@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SuperSocketRRPCAOPContainer</name>
+    </assembly>
+    <members>
+        <member name="T:SuperSocketRRPCAOPContainer.AOPContainer">
+            <summary>
+            AOP
+            </summary>
+        </member>
+        <member name="M:SuperSocketRRPCAOPContainer.AOPContainer.#ctor">
+            <summary>
+            AOP
+            </summary>
+        </member>
+        <member name="M:SuperSocketRRPCAOPContainer.AOPContainer.GetServices``1(SuperSocketRRPCServer.RRPCSession)">
+            <summary>
+            获取远程类
+            </summary>
+            <typeparam name="T">对象</typeparam>
+            <param name="session">需要通讯的对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:SuperSocketRRPCAOPContainer.AOPContainer.ImplementFunc(Castle.DynamicProxy.IInvocation,SuperSocketRRPCServer.RRPCSession)">
+            <summary>
+            执行方法
+            </summary>
+            <param name="invocation"></param>
+            <param name="session"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SuperSocketRRPCAOPContainer.AOPRPCInterceptor">
+            <summary>
+            AOP
+            </summary>
+        </member>
+        <member name="M:SuperSocketRRPCAOPContainer.AOPRPCInterceptor.#ctor(System.Func{Castle.DynamicProxy.IInvocation,System.Object})">
+            <summary>
+            AOP
+            </summary>
+            <param name="implement"></param>
+        </member>
+        <member name="M:SuperSocketRRPCAOPContainer.AOPRPCInterceptor.PreProceed(Castle.DynamicProxy.IInvocation)">
+            <summary>
+            AOP
+            </summary>
+            <param name="invocation"></param>
+        </member>
+        <member name="M:SuperSocketRRPCAOPContainer.AOPRPCInterceptor.PerformProceed(Castle.DynamicProxy.IInvocation)">
+            <summary>
+            AOP
+            </summary>
+            <param name="invocation"></param>
+        </member>
+        <member name="M:SuperSocketRRPCAOPContainer.AOPRPCInterceptor.PostProceed(Castle.DynamicProxy.IInvocation)">
+            <summary>
+            执行后
+            </summary>
+            <param name="invocation"></param>
+        </member>
+    </members>
+</doc>
