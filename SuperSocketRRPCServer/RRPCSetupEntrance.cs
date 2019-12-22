@@ -30,12 +30,14 @@ namespace SuperSocketRRPCServer
         /// 全局服务注入函数
         /// 在此处注入则所有的AppServer都会调用此函数
         /// </summary>
-        public Action<UnityInIt<RRPCSession, RequestExecutiveInformation, RequestBaseInfo>> WholeUnitys { get; private set; }
+        internal Action<UnityInIt<RRPCSession, RequestExecutiveInformation, RequestBaseInfo>> WholeUnitys { get; private set; }
 
         /// <summary>
         /// RRPC初始化入口
         /// </summary>
-        public RRPCSetupEntrance(Action<IUnityContainer> GlobalContainerInjection, Action<UnityInIt<RRPCSession, RequestExecutiveInformation, RequestBaseInfo>> WholeUnitys)
+        /// <param name="GlobalContainerInjection">BaseProvideServices 容器对象注入 给所有的APPServer</param>
+        /// <param name="WholeUnitys">提供给远程调用的服务</param>
+        public RRPCSetupEntrance(Action<IUnityContainer> GlobalContainerInjection=null, Action<UnityInIt<RRPCSession, RequestExecutiveInformation, RequestBaseInfo>> WholeUnitys = null)
         {
             if (Single!=null)
             {

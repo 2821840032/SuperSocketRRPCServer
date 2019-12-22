@@ -115,6 +115,7 @@ namespace SuperSocketRRPCUnity
         /// <param name="session">连接对象</param>
         /// <param name="info">请求信息</param>
         /// <param name="requestInfo">基础请求信息</param>
+        /// <param name="container">容器对象</param>
         /// <returns></returns>
         public bool GetService(string fullName, Session session, Info info, RequestInfo requestInfo,IUnityContainer container, out Object obj,out Type InterfaceType)
         {

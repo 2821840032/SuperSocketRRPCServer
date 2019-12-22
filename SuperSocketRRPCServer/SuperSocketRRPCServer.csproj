@@ -3,10 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Ming</Authors>
-    <Description>优化目录结构
-BaseProvideServices新增容器对象</Description>
+    <Description>修改1.0.7版本小BUG</Description>
     <PackageId>SuperSocketRRPCServer</PackageId>
-    <Version>1.0.7</Version>
+    <Version>1.0.8</Version>
     <PackageReleaseNotes>SuperSocket 封装的双向RPC通讯组件 很简陋 这是服务端</PackageReleaseNotes>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
