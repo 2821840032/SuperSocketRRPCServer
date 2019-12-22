@@ -25,7 +25,20 @@ namespace SuperSocketRRPCAOPContainer
         {
             generator = new ProxyGenerator();
         }
-     
+
+        /// <summary>
+        /// 获取远程类
+        /// </summary>
+        /// <typeparam name="T">对象</typeparam>
+        /// <param name="session">需要通讯的对象</param>
+        /// <param name="serverType">需要实例化的类型</param>
+        /// <returns></returns>
+        public object GetServices(RRPCSession session,Type serverType)
+        {
+            return generator.CreateInterfaceProxyWithoutTarget(serverType, new AOPRPCInterceptor((invocation) => {
+                return ImplementFunc(invocation, session);
+            }));
+        }
 
         /// <summary>
         /// 获取远程类
