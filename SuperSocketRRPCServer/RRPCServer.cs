@@ -49,9 +49,9 @@ namespace SuperSocketRRPCServer
 
             RRPCServerList.Add(this);
 
-            RRPCSetupEntrance.Single.GlobalContainerInjection.Invoke(unityContainer);
+            RRPCSetupEntrance.Single.GlobalContainerInjection?.Invoke(unityContainer);
 
-            RRPCSetupEntrance.Single.WholeUnitys.Invoke(container);
+            RRPCSetupEntrance.Single.WholeUnitys?.Invoke(container);
         }
 
         /// <summary>
