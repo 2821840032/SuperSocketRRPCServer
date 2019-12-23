@@ -26,7 +26,7 @@ namespace BTest
 
             while ("q" != Console.ReadLine())
             {
-                var session = RRPCServer.RRPCServerList.FirstOrDefault().GetAllSessions().FirstOrDefault();
+                var session = RRPCServer.RRPCServerList.FirstOrDefault().Value.GetAllSessions().FirstOrDefault();
                 var add = container.GetServices<IADD>(session);
                 if (session != null)
                 {

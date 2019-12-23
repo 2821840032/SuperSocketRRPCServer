@@ -25,6 +25,11 @@ namespace SuperSocketRRPCServer
         public RemoteCallQueue RemoteCallQueue { get; private set; }
 
         /// <summary>
+        /// 请求转发任务队列
+        /// </summary>
+        public ForwardingRequestQueue ForwardingRequestQueue { get; set; }
+
+        /// <summary>
         /// 标识
         /// </summary>
         public Dictionary<string, Object> Identifications { get; private set; }
@@ -35,6 +40,7 @@ namespace SuperSocketRRPCServer
         /// </summary>
         public RRPCSession()
         {
+            ForwardingRequestQueue = new ForwardingRequestQueue();
             RemoteCallQueue = new RemoteCallQueue();
             Identifications = new Dictionary<string, object>();
         }

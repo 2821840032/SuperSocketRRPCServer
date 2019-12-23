@@ -116,10 +116,11 @@ namespace SuperSocketRRPCServerCommandConsole.CommandOptionsMap
                     break;
                 case "Server":
                     table.Columns.Add("ID");
+                    table.Columns.Add("Name");
                     table.Columns.Add("Monitor");
                     foreach (var item in RRPCServer.RRPCServerList)
                     {
-                        table.Rows.Add(item.Key, item.Value.Config.Ip+":"+item.Value.Config.Port);
+                        table.Rows.Add(item.Key, item.Value.Config.Name,string.Join("|",item.Value.Config.Listeners.Select(d=>d.Ip+":"+d.Port)));
                     }
                     PrintTable(table);
                     break;

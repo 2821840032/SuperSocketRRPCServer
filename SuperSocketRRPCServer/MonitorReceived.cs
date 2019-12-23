@@ -38,6 +38,12 @@ namespace SuperSocketRRPCServer
             if (info.ReturnValue != null && session.RemoteCallQueue.GetTaskIDAndSuccess(info.ID, info.ReturnValue))
             {
                 //处理完成
+                return;
+            }
+            if (info.ReturnValue != null && session.ForwardingRequestQueue.GetTaskIDAndSuccess(info.ID, info.ReturnValue))
+            {
+                //处理转发请求完成
+                return;
             }
             else if (info.ReturnValue != null)
             {
@@ -57,6 +63,7 @@ namespace SuperSocketRRPCServer
         /// <param name="requestInfo">请求基础类</param>
         void ImplementFunc(RequestExecutiveInformation info, RRPCSession session, RequestBaseInfo requestInfo)
         {
+            //首先查询是否为此提供服务
             if (session.RrpcAppServer.container.GetService(info.FullName, session, info, requestInfo, ((RRPCServer)session.AppServer).unityContainer, out object executionObj, out var iServerType))
             {
                 var methodType = iServerType.GetMethod(info.MethodName);
@@ -72,7 +79,16 @@ namespace SuperSocketRRPCServer
             }
             else
             {
-                session.Log("收到一个未知的请求" + requestInfo.bodyMeg, LoggerType.Error);
+                //在查询是否为转发服务
+                foreach (var item in RRPCServer.RRPCServerList)
+                {
+                    if (item.Value.ForwardingRequest.GetService(info.FullName,RRPCServer.RRPCServerList.Values.ToList(),out var sessionLo))
+                    {
+                        sessionLo.ForwardingRequestQueue.AddTaskQueue(info.ID, info,session,sessionLo);
+                        return;
+                    }
+                }
+                    session.Log("收到一个未知的请求" + requestInfo.bodyMeg, LoggerType.Error);
             }
         }
     }

@@ -24,7 +24,7 @@ namespace SuperSocketRRPCServer
         /// 全局容器对象注入函数
         /// 在此处注入则所有的AppServer都会调用此函数
         /// </summary>
-        internal Action<IUnityContainer> GlobalContainerInjection { get;private set; }
+        internal Action<IUnityContainer> GlobalContainerInjection { get; private set; }
 
         /// <summary>
         /// 全局服务注入函数
@@ -33,11 +33,17 @@ namespace SuperSocketRRPCServer
         internal Action<UnityInIt<RRPCSession, RequestExecutiveInformation, RequestBaseInfo>> WholeUnitys { get; private set; }
 
         /// <summary>
+        /// 转发请求 Clinet=>Server=>Client
+        /// </summary>
+        internal Action<ForwardingRequestUnity> ForwardingRequest { get; private set; }
+
+        /// <summary>
         /// RRPC初始化入口
         /// </summary>
         /// <param name="GlobalContainerInjection">BaseProvideServices 容器对象注入 给所有的APPServer</param>
         /// <param name="WholeUnitys">提供给远程调用的服务</param>
-        public RRPCSetupEntrance(Action<IUnityContainer> GlobalContainerInjection=null, Action<UnityInIt<RRPCSession, RequestExecutiveInformation, RequestBaseInfo>> WholeUnitys = null)
+        /// <param name="ForwardingRequest">转发服务请求</param>
+        public RRPCSetupEntrance(Action<IUnityContainer> GlobalContainerInjection=null, Action<UnityInIt<RRPCSession, RequestExecutiveInformation, RequestBaseInfo>> WholeUnitys = null, Action<ForwardingRequestUnity> ForwardingRequest =null)
         {
             if (Single!=null)
             {
@@ -46,6 +52,7 @@ namespace SuperSocketRRPCServer
             Single = this;
             this.GlobalContainerInjection = GlobalContainerInjection;
             this.WholeUnitys = WholeUnitys;
+            this.ForwardingRequest = ForwardingRequest;
 
             SetupAPPServers();
         }
