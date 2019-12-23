@@ -59,8 +59,7 @@ namespace SuperSocketRRPCServer
         /// </summary>
         protected override void OnStarted()
         {
-            Console.WriteLine(string.Format("Socket启动成功：{0}:{1}", this.Config.Ip, this.Config.Port));
-            Logger.Info("启动成功");
+            this.Log(string.Format("Socket启动成功：{0}:{1}", this.Config.Ip, this.Config.Port));
             //启动成功
         }
     }

@@ -32,8 +32,7 @@ namespace SuperSocketRRPCServer
             }
             catch (Exception e)
             {
-                session.Logger.Error($"解析失败 ex:{e} Body:{requestInfo.bodyMeg }EndAddress:{session.RemoteEndPoint.ToString()}");
-                Console.WriteLine($"解析失败 ex:{e} Body:{requestInfo.bodyMeg }EndAddress:{session.RemoteEndPoint.ToString()}");
+                session.Log($"解析失败 ex:{e} Body:{requestInfo.bodyMeg }EndAddress:{session.RemoteEndPoint.ToString()}", LoggerType.Error);
                 return;
             }
             if (info.ReturnValue != null && session.RemoteCallQueue.GetTaskIDAndSuccess(info.ID, info.ReturnValue))
@@ -42,10 +41,8 @@ namespace SuperSocketRRPCServer
             }
             else if (info.ReturnValue != null)
             {
-                session.Logger.Error($"收到一个意外的请求 它有结果但是没有找到该任务的信息 ID:{info.ID} FullName:{info.FullName} Return:{info.ReturnValue} 来自于:{session.RemoteEndPoint.ToString()}");
 
-
-                  Console.WriteLine($"收到一个意外的请求 它有结果但是没有找到该任务的信息 ID:{info.ID} FullName:{info.FullName} Return:{info.ReturnValue} 来自于:{session.RemoteEndPoint.ToString()}");
+                session.Log($"收到一个意外的请求 它有结果但是没有找到该任务的信息 ID:{info.ID} FullName:{info.FullName} Return:{info.ReturnValue} 来自于:{session.RemoteEndPoint.ToString()}", LoggerType.Error);
             }
             else
             {
@@ -75,9 +72,7 @@ namespace SuperSocketRRPCServer
             }
             else
             {
-                session.Logger.Error("收到一个未知的请求" + info.FullName);
-
-                Console.WriteLine("收到一个未知的请求" + info.FullName);
+                session.Log("收到一个未知的请求" + requestInfo.bodyMeg, LoggerType.Error);
             }
         }
     }

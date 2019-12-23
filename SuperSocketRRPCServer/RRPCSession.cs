@@ -42,7 +42,7 @@ namespace SuperSocketRRPCServer
         /// </summary>
         protected override void OnSessionStarted()
         {
-            Console.WriteLine("新的连接：" + SessionID);
+            this.Log("新的连接：" + SessionID);
 
         }
         /// <summary>
@@ -78,7 +78,7 @@ namespace SuperSocketRRPCServer
         /// <param name="reason"></param>
         protected override void OnSessionClosed(CloseReason reason)
         {
-            Console.WriteLine($"远程连接断开 IP-Prot:{RemoteEndPoint.ToString()}");
+            this.Log($"远程连接断开 IP-Prot:{RemoteEndPoint.ToString()}、ID:{SessionID}");
             //释放所有的任务
             RemoteCallQueue.ErrorEmpty("远程对象被关闭 原因:"+reason);
 
