@@ -29,6 +29,7 @@ namespace SuperSocketRRPCServer
         /// </summary>
         public Dictionary<string, Object> Identifications { get; private set; }
 
+
         /// <summary>
         /// session
         /// </summary>

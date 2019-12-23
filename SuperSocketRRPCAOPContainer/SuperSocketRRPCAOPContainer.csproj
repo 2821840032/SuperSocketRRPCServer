@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Ming</Authors>
-    <Description>新增type类型获取AOP对象</Description>
-    <Version>1.0.9</Version>
+    <Description>添加日志组件 添加对命令行的支持</Description>
+    <Version>1.1.0</Version>
     <PackageReleaseNotes>SuperSocket 封装的双向RPC通讯组件 很简陋 这是服务端的AOP拦截</PackageReleaseNotes>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>

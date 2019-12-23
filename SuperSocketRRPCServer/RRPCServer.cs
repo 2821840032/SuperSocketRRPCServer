@@ -32,7 +32,7 @@ namespace SuperSocketRRPCServer
         /// <summary>
         /// 所有的ServerList服务
         /// </summary> 
-        public static List<RRPCServer> RRPCServerList { get; private set; } = new List<RRPCServer>();
+        public static Dictionary<Guid, RRPCServer> RRPCServerList { get; private set; } = new Dictionary<Guid, RRPCServer>();
 
         /// <summary>
         /// 通过配置文件安装服务从这里启动
@@ -47,7 +47,7 @@ namespace SuperSocketRRPCServer
           
             unityContainer = new UnityContainer();
 
-            RRPCServerList.Add(this);
+            RRPCServerList.Add(Guid.NewGuid(),this);
 
             RRPCSetupEntrance.Single.GlobalContainerInjection?.Invoke(unityContainer);
 
