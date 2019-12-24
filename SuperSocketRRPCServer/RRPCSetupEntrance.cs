@@ -33,9 +33,9 @@ namespace SuperSocketRRPCServer
         internal Action<UnityInIt<RRPCSession, RequestExecutiveInformation, RequestBaseInfo>> WholeUnitys { get; private set; }
 
         /// <summary>
-        /// 转发请求 Clinet=>Server=>Client
+        /// 转发请求规则容器 
         /// </summary>
-        internal Action<ForwardingRequestUnity> ForwardingRequest { get; private set; }
+        internal ForwardingRequestUnity ForwardingRequestUnity { get; private set; }
 
         /// <summary>
         /// RRPC初始化入口
@@ -52,7 +52,9 @@ namespace SuperSocketRRPCServer
             Single = this;
             this.GlobalContainerInjection = GlobalContainerInjection;
             this.WholeUnitys = WholeUnitys;
-            this.ForwardingRequest = ForwardingRequest;
+
+            ForwardingRequestUnity = new ForwardingRequestUnity();
+            ForwardingRequest?.Invoke(this.ForwardingRequestUnity);
 
             SetupAPPServers();
         }

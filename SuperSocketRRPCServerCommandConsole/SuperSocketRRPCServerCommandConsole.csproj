@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Ming</Authors>
-    <Description>修改转发请求的小BUG</Description>
-    <Version>1.1.2</Version>
+    <Description>新增 Server  Session Count 列</Description>
+    <Version>1.1.3</Version>
   </PropertyGroup>
 
   <ItemGroup>

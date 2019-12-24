@@ -24,11 +24,6 @@ namespace SuperSocketRRPCServer
        public UnityInIt<RRPCSession, RequestExecutiveInformation, RequestBaseInfo> container { get; private set; }
 
         /// <summary>
-        /// 转发对象容器列表
-        /// </summary>
-        public ForwardingRequestUnity ForwardingRequest { get; private set; }
-
-        /// <summary>
         /// unity 容器对象 一般用来存储如 数据库连接对象 工具之类的单例或者工厂
         /// 在RPCsetup中全局唯一 且能在服务中获取到它
         /// </summary>
@@ -50,7 +45,6 @@ namespace SuperSocketRRPCServer
 
             container = new UnityInIt<RRPCSession, RequestExecutiveInformation, RequestBaseInfo>(baseProvideServicesType.FullName,baseProvideServicesType.GetProperty("Socket"), baseProvideServicesType.GetProperty("Info"), baseProvideServicesType.GetProperty("RequestInfo"), baseProvideServicesType.GetProperty("Container"));
 
-            ForwardingRequest = new ForwardingRequestUnity();
 
             unityContainer = new UnityContainer();
 
@@ -61,7 +55,6 @@ namespace SuperSocketRRPCServer
 
             RRPCSetupEntrance.Single.WholeUnitys?.Invoke(container);
 
-            RRPCSetupEntrance.Single.ForwardingRequest?.Invoke(ForwardingRequest);
         }
 
         /// <summary>

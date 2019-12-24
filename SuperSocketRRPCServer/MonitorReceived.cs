@@ -79,14 +79,9 @@ namespace SuperSocketRRPCServer
             }
             else
             {
-               var server = RRPCServer.RRPCServerList.Where(d => d.Value.ForwardingRequest.ForwardingRequestunity.ContainsKey(info.FullName)).OrderBy(d=>Guid.NewGuid()).Select(d=>d.Value).FirstOrDefault();
-                if (server==null)
+                if (RRPCSetupEntrance.Single.ForwardingRequestUnity.GetService(info.FullName, RRPCServer.RRPCServerList.Select(d=>d.Value).ToList(), out var sessionLo))
                 {
-                    RRPCServer.RRPCServerList.FirstOrDefault().Value.Log($"转发请求失败{info.FullName} 无法找到指定的RRPCServer 请检查注入参数", LoggerType.Error);
-                    return;
-                }
-                if (server.ForwardingRequest.GetService(info.FullName, server, out var sessionLo))
-                {
+                    Console.WriteLine("发送");
                     sessionLo.ForwardingRequestQueue.AddTaskQueue(info.ID, info, session, sessionLo);
                     return;
                 }

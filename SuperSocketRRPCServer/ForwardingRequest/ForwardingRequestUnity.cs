@@ -10,7 +10,7 @@ namespace SuperSocketRRPCServer
     /// </summary>
    public class ForwardingRequestUnity
     {
-        /// <summary>
+        /// <summary>*
         /// 存储的FullName 转发标识列表
         /// </summary>
         public Dictionary<string, ForwardingRequestEnity> ForwardingRequestunity { get; set; }
@@ -22,7 +22,7 @@ namespace SuperSocketRRPCServer
             ForwardingRequestunity = new Dictionary<string, ForwardingRequestEnity>();
         }
         /// <summary>
-        /// 添加转发服务
+        /// 添加转发服务规则
         /// </summary>
         /// <typeparam name="IT">待转发请求的接口</typeparam>
         /// <param name="SelectRRPCServer">选择转发的服务器 不能为空</param>
@@ -40,12 +40,20 @@ namespace SuperSocketRRPCServer
         /// 查询转发的请求
         /// </summary>
         /// <param name="fullName">标识</param>
-        /// <param name="RRPCServers">服务查询函数</param>
         /// <param name="session">查询到的session</param>
+        /// <param name="RRPCServers">服务列表</param>
         /// <returns></returns>
-        public bool GetService(string fullName, RRPCServer rrpcServer, out RRPCSession session) {
+        public bool GetService(string fullName,List<RRPCServer> RRPCServers, out RRPCSession session) {
             if (ForwardingRequestunity.TryGetValue(fullName, out var value))
             {
+                var  rrpcServer = value.SelectRRPCServer(RRPCServers);
+
+                if (rrpcServer == null)
+                {
+                    RRPCServer.RRPCServerList.FirstOrDefault().Value.Log($"转发请求失败{fullName} 无法找到指定的RRPCServer 没有找到转发该请求的服务配置", LoggerType.Error);
+                    session = null;
+                    return false; ;
+                }
                 var count = rrpcServer.GetAllSessions().Count();
                 if (count==0)
                 {
