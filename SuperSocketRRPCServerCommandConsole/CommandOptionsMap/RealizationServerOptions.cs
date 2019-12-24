@@ -27,7 +27,7 @@ namespace SuperSocketRRPCServerCommandConsole.CommandOptionsMap
         [Option('n', "name", Required = true, HelpText = "函数名称")]
         public string name { get; set; }
 
-        [Option('p', "para", Required = true, HelpText = "参数")]
+        [Option('p', "para", Required = false, HelpText = "参数")]
         public IEnumerable<string> para { get; set; }
 
         public int Run(List<Type> commandExecutionRPClist, AOPContainer aOPContainer)
