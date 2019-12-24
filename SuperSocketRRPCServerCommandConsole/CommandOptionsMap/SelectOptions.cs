@@ -15,7 +15,7 @@ namespace SuperSocketRRPCServerCommandConsole.CommandOptionsMap
     [Verb("Select", HelpText = "查询信息")]
    public class SelectOptions
     {
-        [Option('n', "name", Required = true, HelpText = "查询的对象名称 Task 任务列表\tRPCServer 远程执行函数列表\t Log 日志\t Server \t Session")]
+        [Option('n', "name", Required = true, HelpText = "查询的对象名称 Task 任务列表\tRPCServer 远程执行函数列表\t Log 日志\t Server \t Session\t ForwardingRequestTask 转发任务列表")]
         public string name { get; set; }
 
         [Option('o', "order", Required = false, HelpText = "排序名称")]
@@ -39,6 +39,54 @@ namespace SuperSocketRRPCServerCommandConsole.CommandOptionsMap
           
             switch (name)
             {
+                case "ForwardingRequestTask":
+                    if (string.IsNullOrWhiteSpace(socketServerId))
+                    {
+                        Console.WriteLine("Server ID 不能为空 ");
+                        return 1;
+                    }
+                    if (string.IsNullOrWhiteSpace(socketSessionId))
+                    {
+                        Console.WriteLine("Session ID 不能为空 ");
+                        return 1;
+                    }
+                    if (RRPCServer.RRPCServerList.TryGetValue(Guid.Parse(socketServerId), out var FRvalue))
+                    {
+                        var client = FRvalue.GetAllSessions().FirstOrDefault(d => d.SessionID == socketSessionId);
+                        if (client != null)
+                        {
+                            table.Columns.Add("Key");
+                            table.Columns.Add("State");
+                            table.Columns.Add("ExpirationTime");
+                            table.Columns.Add("RetryCount");
+                            table.Columns.Add("ReturnValue");
+                            table.Columns.Add("RequestClient");
+                            table.Columns.Add("GiveClient");
+                            var list = client.ForwardingRequestQueue.MethodCallQueues.Select(d => d.Value).ToList();
+                            if (!string.IsNullOrWhiteSpace(orderName))
+                            {
+                                list = OrderBy(list.AsQueryable(), orderName, orderDesc).ToList();
+                            }
+                            foreach (var item in list)
+                            {
+                                table.Rows.Add(item.ID, item.State, item.ExpirationTime, item.RetryCount, item.ReturnValue,item.RequestClient.SessionID,item.GiveClient.SessionID);
+                            }
+                            PrintTable(table);
+                        }
+                        else
+                        {
+                            Console.WriteLine("没有找到Session ID" + socketSessionId);
+                            return 1;
+                        }
+                        break;
+
+                    }
+                    else
+                    {
+                        Console.WriteLine("Server ID 不存在");
+                        return 1;
+
+                    }
                 case "Task":
                     if (string.IsNullOrWhiteSpace(socketServerId))
                     {

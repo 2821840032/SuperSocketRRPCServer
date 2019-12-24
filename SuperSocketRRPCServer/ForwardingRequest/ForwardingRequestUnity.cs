@@ -43,16 +43,9 @@ namespace SuperSocketRRPCServer
         /// <param name="RRPCServers">服务查询函数</param>
         /// <param name="session">查询到的session</param>
         /// <returns></returns>
-        public bool GetService(string fullName, List<RRPCServer> RRPCServers,out RRPCSession session) {
+        public bool GetService(string fullName, RRPCServer rrpcServer, out RRPCSession session) {
             if (ForwardingRequestunity.TryGetValue(fullName, out var value))
             {
-                var rrpcServer = value.SelectRRPCServer(RRPCServers);
-                if (rrpcServer==null)
-                {
-                    RRPCServer.RRPCServerList.FirstOrDefault().Value.Log($"转发请求失败{fullName} 无法找到指定的RRPCServer 请检查注入参数", LoggerType.Error);
-                    session = null;
-                    return false;
-                }
                 var count = rrpcServer.GetAllSessions().Count();
                 if (count==0)
                 {

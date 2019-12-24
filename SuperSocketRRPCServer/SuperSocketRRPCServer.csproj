@@ -3,9 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Ming</Authors>
-    <Description>添加日志 添加命令行的支持</Description>
+    <Description>修改转发请求的小BUG</Description>
     <PackageId>SuperSocketRRPCServer</PackageId>
-    <Version>1.1.0</Version>
+    <Version>1.1.2</Version>
     <PackageReleaseNotes>SuperSocket 封装的双向RPC通讯组件 很简陋 这是服务端</PackageReleaseNotes>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>

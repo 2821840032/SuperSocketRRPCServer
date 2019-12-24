@@ -3,7 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Ming</Authors>
-    <Description>SuperSocketServer 服务端命令行</Description>
+    <Description>修改转发请求的小BUG</Description>
+    <Version>1.1.2</Version>
   </PropertyGroup>
 
   <ItemGroup>

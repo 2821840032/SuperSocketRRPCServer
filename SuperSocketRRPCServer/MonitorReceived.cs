@@ -79,16 +79,20 @@ namespace SuperSocketRRPCServer
             }
             else
             {
-                //在查询是否为转发服务
-                foreach (var item in RRPCServer.RRPCServerList)
+               var server = RRPCServer.RRPCServerList.Where(d => d.Value.ForwardingRequest.ForwardingRequestunity.ContainsKey(info.FullName)).OrderBy(d=>Guid.NewGuid()).Select(d=>d.Value).FirstOrDefault();
+                if (server==null)
                 {
-                    if (item.Value.ForwardingRequest.GetService(info.FullName,RRPCServer.RRPCServerList.Values.ToList(),out var sessionLo))
-                    {
-                        sessionLo.ForwardingRequestQueue.AddTaskQueue(info.ID, info,session,sessionLo);
-                        return;
-                    }
+                    RRPCServer.RRPCServerList.FirstOrDefault().Value.Log($"转发请求失败{info.FullName} 无法找到指定的RRPCServer 请检查注入参数", LoggerType.Error);
+                    return;
                 }
+                if (server.ForwardingRequest.GetService(info.FullName, server, out var sessionLo))
+                {
+                    sessionLo.ForwardingRequestQueue.AddTaskQueue(info.ID, info, session, sessionLo);
+                    return;
+                }
+                else {
                     session.Log("收到一个未知的请求" + requestInfo.bodyMeg, LoggerType.Error);
+                }
             }
         }
     }
