@@ -4,7 +4,8 @@ using System.Text;
 using Unity;
 using System.Linq;
 using System.Reflection;
-
+using SuperSocketRRPCServer.CommunicationEntity;
+using Newtonsoft.Json;
 namespace SuperSocketRRPCServer
 {
     /// <summary>
@@ -62,48 +63,74 @@ namespace SuperSocketRRPCServer
         /// <summary>
         /// 查询转发的请求
         /// </summary>
-        /// <param name="fullName">标识</param>
-        /// <param name="assemblyFullName">程序集FullName</param>
+        /// <param name="info">请求信息</param>
         /// <param name="session">查询到的session</param>
         /// <param name="RRPCServers">服务列表</param>
         /// <returns></returns>
-        public bool GetService(string fullName,string assemblyFullName, List<RRPCServer> RRPCServers, out RRPCSession session) {
+        public bool GetService(RequestExecutiveInformation info,List<RRPCServer> RRPCServers, out RRPCSession session) {
             ForwardingRequestEnity value;
-            if (ForwardingRequestunity.TryGetValue(fullName, out value)|| ForwardingRequestunity.TryGetValue(assemblyFullName, out value))
+            if (ForwardingRequestunity.TryGetValue(info.FullName, out value)|| ForwardingRequestunity.TryGetValue(info.AssemblyFullName, out value))
             {
                 var  rrpcServer = value.SelectRRPCServer(RRPCServers);
 
                 if (rrpcServer == null)
                 {
-                    RRPCServer.RRPCServerList.FirstOrDefault().Value.Log($"转发请求失败{fullName} 无法找到指定的RRPCServer 没有找到转发该请求的服务配置", LoggerType.Error);
+                    RRPCServer.RRPCServerList.FirstOrDefault().Value.Log($"转发请求失败{info.FullName} 无法找到指定的RRPCServer 没有找到转发该请求的服务配置", LoggerType.Error);
                     session = null;
                     return false; ;
                 }
                 var count = rrpcServer.GetAllSessions().Count();
                 if (count==0)
                 {
-                    rrpcServer.Log($"转发请求失败{fullName} 由于{rrpcServer.Config.Name} 连接客户端为0", LoggerType.Error);
+                    rrpcServer.Log($"转发请求失败{info.FullName} 由于{rrpcServer.Config.Name} 连接客户端为0", LoggerType.Error);
                     session = null;
                     return false;
                 }
-                if (value.SelectRRPCSession == null)
-                {
-                    Random rm = new Random();
-                    session = rrpcServer.GetAllSessions().Skip(rm.Next(count)).FirstOrDefault();
-                }
-                else {
-                    session = value.SelectRRPCSession(rrpcServer.GetAllSessions());
-                    if (session==null)
-                    {
-                        Random rm = new Random();
-                        session = rrpcServer.GetAllSessions().Skip(rm.Next(rrpcServer.GetAllSessions().Count())).FirstOrDefault();
-                    }
-                }
-                return true;
+                return SelectSession(info, rrpcServer, rrpcServer.GetAllSessions(), value, 0, out session);
             }
             else {
                 session = null;
                 return false;
+            }
+        }
+        /// <summary>
+        /// 选择Session
+        /// </summary>
+        /// <param name="sessions">Session列表</param>
+        /// <param name="info">请求信息</param>
+        /// <param name="server">选中的Server服务</param>
+        /// <param name="session">匹配到的Session</param>
+        /// <param name="value">保存的配置</param>
+        /// <param name="state">0:优先SelectRRPCSession 1：执行指定sessionID选择 2：随机选择 其他：记录日志没有找到合适的session</param>
+        private bool SelectSession(RequestExecutiveInformation info, RRPCServer server, IEnumerable<RRPCSession> sessions, ForwardingRequestEnity value,int state,out RRPCSession session) {
+            switch (state)
+            {
+                case 0:
+                    session = value.SelectRRPCSession?.Invoke(sessions);
+                    if (session == null)
+                    {
+                       return SelectSession(info, server, sessions, value, state + 1, out session);
+                    }
+                    return true;
+                case 1:
+                    session = sessions.FirstOrDefault(d => d.SessionID.Equals(info.RRPCSessionID?.ToString()));
+                    if (session == null)
+                    {
+                        return SelectSession(info, server, sessions, value, state + 1, out session);
+                    }
+                    return true;
+                case 2:
+                    Random rm = new Random();
+                    session = sessions.Skip(rm.Next(sessions.Count())).FirstOrDefault();
+                    if (session == null)
+                    {
+                        SelectSession(info, server, sessions, value, state + 1, out session);
+                    }
+                    return true;
+                default:
+                    server.Log("没有找到匹配的Session 本次请求作废" + JsonConvert.SerializeObject(info));
+                    session = null;
+                    return false;
             }
         }
     }
