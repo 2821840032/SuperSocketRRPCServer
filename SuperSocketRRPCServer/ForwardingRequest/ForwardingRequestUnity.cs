@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using Unity;
 using System.Linq;
+using System.Reflection;
+
 namespace SuperSocketRRPCServer
 {
     /// <summary>
@@ -22,7 +24,7 @@ namespace SuperSocketRRPCServer
             ForwardingRequestunity = new Dictionary<string, ForwardingRequestEnity>();
         }
         /// <summary>
-        /// 添加转发服务规则
+        /// 添加转发服务规则-某个指定服务
         /// </summary>
         /// <typeparam name="IT">待转发请求的接口</typeparam>
         /// <param name="SelectRRPCServer">选择转发的服务器 不能为空</param>
@@ -35,16 +37,39 @@ namespace SuperSocketRRPCServer
             }
             ForwardingRequestunity.Add(typeof(IT).FullName, new ForwardingRequestEnity() { ID = typeof(IT).FullName, SelectRRPCServer = SelectRRPCServer, SelectRRPCSession = SelectRRPCSession });
         }
+        /// <summary>
+        /// 添加转发服务规则-某个命名空间
+        /// </summary>
+        /// <param name="RRPCInterfaceName">远程接口 名称</param>
+        /// <param name="SelectRRPCServer">选择转发的服务器 不能为空</param>
+        /// <param name="SelectRRPCSession">选择转发session 若为空则从列表中随机选取一个</param>
+        public void AddForwardingRequestNamespace(string RRPCInterfaceName, Func<List<RRPCServer>, RRPCServer> SelectRRPCServer, Func<IEnumerable<RRPCSession>, RRPCSession> SelectRRPCSession = null)
+        {
+
+            if (SelectRRPCServer == null)
+            {
+                throw new Exception("SelectRRPCServer 项不能为空");
+            }
+
+            var assembly = Assembly.Load(RRPCInterfaceName);
+            if (assembly == null)
+            {
+                throw new Exception("没有找到此项目"+RRPCInterfaceName);
+            }
+            ForwardingRequestunity.Add(assembly.FullName, new ForwardingRequestEnity() { ID = assembly.FullName, SelectRRPCServer = SelectRRPCServer, SelectRRPCSession = SelectRRPCSession });
+        }
 
         /// <summary>
         /// 查询转发的请求
         /// </summary>
         /// <param name="fullName">标识</param>
+        /// <param name="assemblyFullName">程序集FullName</param>
         /// <param name="session">查询到的session</param>
         /// <param name="RRPCServers">服务列表</param>
         /// <returns></returns>
-        public bool GetService(string fullName,List<RRPCServer> RRPCServers, out RRPCSession session) {
-            if (ForwardingRequestunity.TryGetValue(fullName, out var value))
+        public bool GetService(string fullName,string assemblyFullName, List<RRPCServer> RRPCServers, out RRPCSession session) {
+            ForwardingRequestEnity value;
+            if (ForwardingRequestunity.TryGetValue(fullName, out value)|| ForwardingRequestunity.TryGetValue(assemblyFullName, out value))
             {
                 var  rrpcServer = value.SelectRRPCServer(RRPCServers);
 

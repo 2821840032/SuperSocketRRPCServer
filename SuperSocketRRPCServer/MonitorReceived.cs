@@ -79,7 +79,7 @@ namespace SuperSocketRRPCServer
             }
             else
             {
-                if (RRPCSetupEntrance.Single.ForwardingRequestUnity.GetService(info.FullName, RRPCServer.RRPCServerList.Select(d=>d.Value).ToList(), out var sessionLo))
+                if (RRPCSetupEntrance.Single.ForwardingRequestUnity.GetService(info.FullName, info.AssemblyFullName, RRPCServer.RRPCServerList.Select(d=>d.Value).ToList(), out var sessionLo))
                 {
                     sessionLo.ForwardingRequestQueue.AddTaskQueue(info.ID, info, session, sessionLo);
                     return;

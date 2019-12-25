@@ -31,6 +31,9 @@ namespace SuperSocketRRPCServerCommandConsole.CommandOptionsMap
         [Option('s', "socketServerId", Required = false, HelpText = "Server的ID")]
         public string socketServerId { get; set; }
 
+        //待完成目标记录
+        //2,转发的请求可以主动由client确定是那个client接收 --待思考
+
 
         public int Run(List<Type> commandExecutionRPC)
         {
