@@ -3,9 +3,10 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Ming</Authors>
-    <Description>修改转发代码逻辑</Description>
+    <Description>新增指定程序集（类库）转发请求而不仅仅是某个类
+新增指定某个客户端负责某个请求而不是随机</Description>
     <PackageId>SuperSocketRRPCServer</PackageId>
-    <Version>1.1.3</Version>
+    <Version>1.1.4</Version>
     <PackageReleaseNotes>SuperSocket 封装的双向RPC通讯组件 很简陋 这是服务端</PackageReleaseNotes>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
