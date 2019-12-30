@@ -21,9 +21,9 @@ namespace BTest
             RRPCSetupEntrance superMain = new RRPCSetupEntrance((unity) => {
                 //unity.RegisterSingleton<IADD,ADD>();
             }, (unity) => {
-                //unity.AddServer<IADD, ADD>();
+                unity.AddServer<IADD, ADD>();
             }, (unitytoo) => {
-            unitytoo.AddForwardingRequestNamespace("IRPCService", (x) => x.FirstOrDefault());
+                //unitytoo.AddForwardingRequestNamespace("IRPCService", (x) => x.FirstOrDefault());
             });
 
             while ("q" != Console.ReadLine())

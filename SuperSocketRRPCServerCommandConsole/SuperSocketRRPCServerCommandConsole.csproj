@@ -3,9 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Ming</Authors>
-    <Description>新增指定程序集（类库）转发请求而不仅仅是某个类
-新增指定某个客户端负责某个请求而不是随机</Description>
-    <Version>1.1.4</Version>
+    <Description>修复void请求错误的BUG</Description>
+    <Version>1.1.6</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,8 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\SuperSocketRRPCIntegrationProject\SuperSocketRRPCIntegrationServerProject\SuperSocketRRPCAOPContainer\SuperSocketRRPCAOPContainer.csproj" />
-    <ProjectReference Include="..\..\..\SuperSocketRRPCIntegrationProject\SuperSocketRRPCIntegrationServerProject\SuperSocketRRPCServer\SuperSocketRRPCServer.csproj" />
+    <ProjectReference Include="..\SuperSocketRRPCAOPContainer\SuperSocketRRPCAOPContainer.csproj" />
+    <ProjectReference Include="..\SuperSocketRRPCServer\SuperSocketRRPCServer.csproj" />
+    <ProjectReference Include="..\SuperSocketRRPCUnity\SuperSocketRRPCUnity.csproj" />
   </ItemGroup>
 
 </Project>

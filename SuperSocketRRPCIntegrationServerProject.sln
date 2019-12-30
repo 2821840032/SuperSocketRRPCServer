@@ -11,13 +11,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BTest", "BTest\BTest.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperSocketRRPCAOPContainer", "SuperSocketRRPCAOPContainer\SuperSocketRRPCAOPContainer.csproj", "{152D0409-EBC9-4DEF-B14E-A862E04238F7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{E8C69FBE-35B4-4BE2-8D9B-D04C748E27AD}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RRPCServer", "RRPCServer", "{E8C69FBE-35B4-4BE2-8D9B-D04C748E27AD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IRPCService", "..\..\supersocketTest\supersocketTest\IRPCService\IRPCService.csproj", "{608D7680-CE68-41FA-AE76-35417A1A20B1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPCService", "..\..\supersocketTest\supersocketTest\RPCService\RPCService.csproj", "{7A7255CB-B0D4-4F2C-8D98-3024065BA24B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperSocketRRPCServerCommandConsole", "SuperSocketRRPCServerCommandConsole\SuperSocketRRPCServerCommandConsole.csproj", "{59441831-B4B1-4D1B-A24B-A9A140B60087}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Interface", "Interface", "{02E2C8A5-AFFF-4DC8-B33E-3F2ED2254075}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,6 +62,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{608D7680-CE68-41FA-AE76-35417A1A20B1} = {E8C69FBE-35B4-4BE2-8D9B-D04C748E27AD}
 		{7A7255CB-B0D4-4F2C-8D98-3024065BA24B} = {E8C69FBE-35B4-4BE2-8D9B-D04C748E27AD}
+		{02E2C8A5-AFFF-4DC8-B33E-3F2ED2254075} = {E8C69FBE-35B4-4BE2-8D9B-D04C748E27AD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {95342B9B-E711-44E2-A7A8-F82D62BDAA9F}
