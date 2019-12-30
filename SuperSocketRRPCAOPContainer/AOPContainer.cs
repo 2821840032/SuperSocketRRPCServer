@@ -18,12 +18,21 @@ namespace SuperSocketRRPCAOPContainer
     public class AOPContainer
     {
         ProxyGenerator generator { get; set; }
+
+
+        /// <summary>
+        /// 转换跳过的类型
+        /// </summary>
+        public Dictionary<string, Func<AOPFilterEntity>> TransformationSkipType { get; set; }
         /// <summary>
         /// AOP
         /// </summary>
         public AOPContainer()
         {
             generator = new ProxyGenerator();
+            TransformationSkipType = new Dictionary<string, Func<AOPFilterEntity>>();
+            TransformationSkipType.Add(typeof(void).FullName, () => { return new AOPFilterEntity() { FullName = typeof(void).FullName, IsReturn = false, IsReplaceResult = true, Result = null }; });
+            TransformationSkipType.Add(typeof(Task).FullName, () => { return new AOPFilterEntity { FullName = typeof(Task).FullName, IsReturn = true, IsReplaceResult = true, Result = Task.CompletedTask }; });
         }
 
         /// <summary>
@@ -71,7 +80,18 @@ namespace SuperSocketRRPCAOPContainer
 
             var result = session.RemoteCallQueue.AddTaskQueue(information.ID, information,session);
 
+
             session.RemoteCallQueue.RemoteExecutionFunc(result);
+
+            AOPFilterEntity filterType = null;
+            if (TransformationSkipType.TryGetValue(invocation.Method.ReturnType.FullName, out var value))
+            {
+                filterType = value.Invoke();
+                if (filterType.IsReturn)
+                {
+                    return filterType.Result;
+                }
+            }
             result.WaitHandle.WaitOne();
             switch (result.State)
             {

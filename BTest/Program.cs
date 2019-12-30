@@ -28,17 +28,22 @@ namespace BTest
 
             while ("q" != Console.ReadLine())
             {
-                Console.ReadLine();
                 var session = RRPCServer.RRPCServerList.FirstOrDefault().Value.GetAllSessions().FirstOrDefault();
                 var add = container.GetServices<IADD>(session);
-                if (session != null)
+                Parallel.For(0, 1000, (A) =>
                 {
-                    Console.WriteLine(container.GetServices<IADD>(session).GetRequestInfo(Guid.NewGuid()));
-                }
-                else
-                {
-                    Console.WriteLine("没有可以发送的对象");
-                }
+                    if (session != null)
+                    {
+                        //container.GetServices<IADD>(session).AsyncMM();
+                        Console.WriteLine(A+"/1000");
+                    }
+                    else
+                    {
+                        Console.WriteLine("没有可以发送的对象");
+                    }
+
+                });
+               
             }
 
         }

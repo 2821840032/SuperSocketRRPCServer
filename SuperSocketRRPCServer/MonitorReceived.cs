@@ -23,7 +23,7 @@ namespace SuperSocketRRPCServer
         /// </summary>
         /// <param name="session">连接对象</param>
         /// <param name="requestInfo">请求信息</param>
-        public override void ExecuteCommand(RRPCSession session, RequestBaseInfo requestInfo)
+        public  override void ExecuteCommand(RRPCSession session, RequestBaseInfo requestInfo)
         {
             RequestExecutiveInformation info = null;
             try
@@ -55,14 +55,16 @@ namespace SuperSocketRRPCServer
                 ImplementFunc(info, session, requestInfo);
             }
         }
+
         /// <summary>
         /// 执行RPC的调用
         /// </summary>
         /// <param name="info">请求信息</param>
         /// <param name="session">连接对象</param>
         /// <param name="requestInfo">请求基础类</param>
-        void ImplementFunc(RequestExecutiveInformation info, RRPCSession session, RequestBaseInfo requestInfo)
+      async  void ImplementFunc(RequestExecutiveInformation info, RRPCSession session, RequestBaseInfo requestInfo)
         {
+            await Task.Yield();
             //首先查询是否为此提供服务
             if (session.RrpcAppServer.container.GetService(info.FullName, session, info, requestInfo, ((RRPCServer)session.AppServer).unityContainer, out object executionObj, out var iServerType))
             {
@@ -80,7 +82,7 @@ namespace SuperSocketRRPCServer
             else
             {
                 if (RRPCSetupEntrance.Single.ForwardingRequestUnity.GetService(info, RRPCServer.RRPCServerList.Select(d=>d.Value).ToList(), out var sessionLo))
-                {
+               {
                     sessionLo.ForwardingRequestQueue.AddTaskQueue(info.ID, info, session, sessionLo);
                     return;
                 }
