@@ -38,7 +38,6 @@ namespace SuperSocketRRPCAOPContainer
         /// <summary>
         /// 获取远程类
         /// </summary>
-        /// <typeparam name="T">对象</typeparam>
         /// <param name="session">需要通讯的对象</param>
         /// <param name="serverType">需要实例化的类型</param>
         /// <returns></returns>

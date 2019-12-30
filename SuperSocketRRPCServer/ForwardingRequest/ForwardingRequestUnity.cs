@@ -66,8 +66,9 @@ namespace SuperSocketRRPCServer
         /// <param name="info">请求信息</param>
         /// <param name="session">查询到的session</param>
         /// <param name="RRPCServers">服务列表</param>
+        /// <param name="ExcludeSessID">排除的ID</param>
         /// <returns></returns>
-        public bool GetService(RequestExecutiveInformation info,List<RRPCServer> RRPCServers, out RRPCSession session) {
+        public bool GetService(RequestExecutiveInformation info,List<RRPCServer> RRPCServers,string ExcludeSessID, out RRPCSession session) {
             ForwardingRequestEnity value;
             if (ForwardingRequestunity.TryGetValue(info.FullName, out value)|| ForwardingRequestunity.TryGetValue(info.AssemblyFullName, out value))
             {
@@ -86,7 +87,7 @@ namespace SuperSocketRRPCServer
                     session = null;
                     return false;
                 }
-                return SelectSession(info, rrpcServer, rrpcServer.GetAllSessions(), value, 0, out session);
+                return SelectSession(info, rrpcServer, rrpcServer.GetAllSessions(), value, 0, ExcludeSessID, out session);
             }
             else {
                 session = null;
@@ -101,30 +102,30 @@ namespace SuperSocketRRPCServer
         /// <param name="server">选中的Server服务</param>
         /// <param name="session">匹配到的Session</param>
         /// <param name="value">保存的配置</param>
+        /// <param name="ExcludeSessID">排除的ID</param>
         /// <param name="state">0:优先SelectRRPCSession 1：执行指定sessionID选择 2：随机选择 其他：记录日志没有找到合适的session</param>
-        private bool SelectSession(RequestExecutiveInformation info, RRPCServer server, IEnumerable<RRPCSession> sessions, ForwardingRequestEnity value,int state,out RRPCSession session) {
+        private bool SelectSession(RequestExecutiveInformation info, RRPCServer server, IEnumerable<RRPCSession> sessions, ForwardingRequestEnity value,int state, string ExcludeSessID, out RRPCSession session) {
             switch (state)
             {
                 case 0:
                     session = value.SelectRRPCSession?.Invoke(sessions);
                     if (session == null)
                     {
-                       return SelectSession(info, server, sessions, value, state + 1, out session);
+                       return SelectSession(info, server, sessions, value, state + 1,ExcludeSessID, out session);
                     }
                     return true;
                 case 1:
                     session = sessions.FirstOrDefault(d => d.SessionID.Equals(info.RRPCSessionID?.ToString()));
                     if (session == null)
                     {
-                        return SelectSession(info, server, sessions, value, state + 1, out session);
+                        return SelectSession(info, server, sessions, value, state + 1, ExcludeSessID, out session);
                     }
                     return true;
                 case 2:
-                    Random rm = new Random();
-                    session = sessions.Skip(rm.Next(sessions.Count())).FirstOrDefault();
+                    session = sessions.Where(d=>!d.SessionID.Equals(ExcludeSessID)).OrderBy(d=>Guid.NewGuid()).FirstOrDefault();
                     if (session == null)
                     {
-                        SelectSession(info, server, sessions, value, state + 1, out session);
+                        return SelectSession(info, server, sessions, value, state + 1, ExcludeSessID, out session);
                     }
                     return true;
                 default:
