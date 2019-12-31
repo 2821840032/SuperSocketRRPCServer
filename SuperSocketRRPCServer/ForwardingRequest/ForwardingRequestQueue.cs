@@ -59,7 +59,7 @@ namespace SuperSocketRRPCServer
         {
             var result = new ForwardingRequestEntity(id, info, ReceiveMessageState.Wait, DateTime.Now, requestClient, giveClient);
             MethodCallQueues.TryAdd(id, result);
-
+            info.RequestClientSession = requestClient.SessionID;
             var msg = JsonConvert.SerializeObject(info);
             giveClient.SendMessage(msg);
 

@@ -4,8 +4,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Company>Ming</Company>
     <Product>Ming</Product>
-    <Description>新增容器对象注入</Description>
-    <Version>1.0.5</Version>
+    <Description>修改GetService 返回Type 为ExecObj 对象</Description>
+    <Version>1.0.7</Version>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 

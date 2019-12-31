@@ -66,7 +66,7 @@ namespace SuperSocketRRPCServer
         {
             await Task.Yield();
             //首先查询是否为此提供服务
-            if (session.RrpcAppServer.container.GetService(info.FullName, session, info, requestInfo, ((RRPCServer)session.AppServer).unityContainer, out object executionObj, out var iServerType))
+            if (session.RrpcAppServer.container.GetService(info.FullName, session, info, requestInfo, ((RRPCServer)session.AppServer).unityContainer,null, out object executionObj, out var iServerType))
             {
                 var methodType = iServerType.GetMethod(info.MethodName);
                 List<object> paraList = new List<object>();
@@ -83,6 +83,7 @@ namespace SuperSocketRRPCServer
             {
                 if (RRPCSetupEntrance.Single.ForwardingRequestUnity.GetService(info, RRPCServer.RRPCServerList.Select(d=>d.Value).ToList(),session.SessionID, out var sessionLo))
                {
+                   
                     sessionLo.ForwardingRequestQueue.AddTaskQueue(info.ID, info, session, sessionLo);
                     return;
                 }

@@ -42,14 +42,19 @@ namespace SuperSocketRRPCUnity
         /// </summary>
         public PropertyInfo containerPropertyInfo { get; private set; }
 
-        
 
+
+        /// <summary>
+        /// requestInfo container
+        /// </summary>
+        public PropertyInfo RequestClientSession { get; private set; }
+       
         #endregion
 
         /// <summary>
         /// 容器对象 接口 FullName  实现类Type 实现类父对象是否为指定FullName
         /// </summary>
-        private Dictionary<string,Tuple<Type,bool>> ContainerObjList { get;set; }
+        private Dictionary<string,Tuple<Type,Type,bool>> ContainerObjList { get;set; }
         /// <summary>
         /// unity 容器对象对象
         /// </summary>
@@ -64,16 +69,18 @@ namespace SuperSocketRRPCUnity
         /// <param name="infoPropertyInfo">请求信息对象属性Type</param>
         /// <param name="requestInfoPropertyInfo">基础请求信息对象属性</param>
         /// <param name="containerPropertyInfo">容器对象</param>
-        public UnityInIt(string BaseProvideServicesFullName, PropertyInfo socketPropertyInfo, PropertyInfo infoPropertyInfo, PropertyInfo requestInfoPropertyInfo, PropertyInfo containerPropertyInfo)
+        /// <param name="requestClientSession">转发请求发送方SessionID</param>
+        public UnityInIt(string BaseProvideServicesFullName, PropertyInfo socketPropertyInfo, PropertyInfo infoPropertyInfo, PropertyInfo requestInfoPropertyInfo, PropertyInfo containerPropertyInfo, PropertyInfo requestClientSession)
         {
             this.BaseProvideServicesFullName = BaseProvideServicesFullName;
             unityContainer = new UnityContainer();
-            ContainerObjList = new Dictionary<string, Tuple<Type, bool>>();
+            ContainerObjList = new Dictionary<string, Tuple<Type, Type, bool>>();
 
             this.socketPropertyInfo = socketPropertyInfo;
             this.infoPropertyInfo = infoPropertyInfo;
             this.requestInfoPropertyInfo = requestInfoPropertyInfo;
             this.containerPropertyInfo = containerPropertyInfo;
+            this.RequestClientSession = requestClientSession;
 
 
 
@@ -96,10 +103,10 @@ namespace SuperSocketRRPCUnity
             }
             if (typeT.BaseType != null && typeT.BaseType.FullName.Equals(BaseProvideServicesFullName))
             {
-                ContainerObjList.Add(typeIT.FullName, new Tuple<Type, bool>(typeIT, true));
+                ContainerObjList.Add(typeIT.FullName, new Tuple<Type, Type, bool>(typeIT, typeT, true));
             }
             else {
-                ContainerObjList.Add(typeIT.FullName, new Tuple<Type, bool>(typeIT, false));
+                ContainerObjList.Add(typeIT.FullName, new Tuple<Type, Type, bool>(typeIT, typeT, false));
             }
           
 
@@ -110,30 +117,32 @@ namespace SuperSocketRRPCUnity
         /// </summary>
         /// <param name="fullName">接口的FullName</param>
         /// <param name="obj">返回的对象</param>
-        /// <param name="InterfaceType">接口类型</param>
+        /// <param name="execType">对象类型</param>
         /// <param name="session">连接对象</param>
         /// <param name="info">请求信息</param>
         /// <param name="requestInfo">基础请求信息</param>
         /// <param name="container">容器对象</param>
+        /// <param name="requestClientSession">转发对象</param>
         /// <returns></returns>
-        public bool GetService(string fullName, Session session, Info info, RequestInfo requestInfo,IUnityContainer container, out Object obj,out Type InterfaceType)
+        public bool GetService(string fullName, Session session, Info info, RequestInfo requestInfo,IUnityContainer container,Guid? requestClientSession, out Object obj,out Type execType)
         {
             if (ContainerObjList.TryGetValue(fullName, out var value))
             {
                 obj = unityContainer.Resolve(value.Item1);
-                InterfaceType = value.Item1;
-                if (value.Item2)
+                execType = value.Item2;
+                if (value.Item3)
                 {
                     //表示可以注入某些属性
                     socketPropertyInfo.SetValue(obj, session);
                     infoPropertyInfo.SetValue(obj, info);
                     requestInfoPropertyInfo.SetValue(obj, requestInfo);
-                    this.containerPropertyInfo.SetValue(obj,container);
+                    containerPropertyInfo.SetValue(obj, container);
+                    RequestClientSession.SetValue(obj, requestClientSession);
                 }
                 return true;
             }
             obj = null;
-            InterfaceType = null;
+            execType = null;
             return false;
         }
     }

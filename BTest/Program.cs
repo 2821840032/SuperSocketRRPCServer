@@ -23,7 +23,7 @@ namespace BTest
             }, (unity) => {
                 unity.AddServer<IADD, ADD>();
             }, (unitytoo) => {
-                //unitytoo.AddForwardingRequestNamespace("IRPCService", (x) => x.FirstOrDefault());
+                unitytoo.AddForwardingRequestNamespace("IRPCClientService", (x) => x.FirstOrDefault());
             });
 
             while ("q" != Console.ReadLine())

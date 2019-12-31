@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperSocketRRPCServerComman
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Interface", "Interface", "{02E2C8A5-AFFF-4DC8-B33E-3F2ED2254075}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IRPCClientService", "..\..\SuperSocketRRPCClientProject\SuperSocketRRPCClientProject\IRPCClientService\IRPCClientService.csproj", "{172A52B3-A583-4167-9175-48563CEAA184}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{59441831-B4B1-4D1B-A24B-A9A140B60087}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59441831-B4B1-4D1B-A24B-A9A140B60087}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59441831-B4B1-4D1B-A24B-A9A140B60087}.Release|Any CPU.Build.0 = Release|Any CPU
+		{172A52B3-A583-4167-9175-48563CEAA184}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{172A52B3-A583-4167-9175-48563CEAA184}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{172A52B3-A583-4167-9175-48563CEAA184}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{172A52B3-A583-4167-9175-48563CEAA184}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -63,6 +69,7 @@ Global
 		{608D7680-CE68-41FA-AE76-35417A1A20B1} = {E8C69FBE-35B4-4BE2-8D9B-D04C748E27AD}
 		{7A7255CB-B0D4-4F2C-8D98-3024065BA24B} = {E8C69FBE-35B4-4BE2-8D9B-D04C748E27AD}
 		{02E2C8A5-AFFF-4DC8-B33E-3F2ED2254075} = {E8C69FBE-35B4-4BE2-8D9B-D04C748E27AD}
+		{172A52B3-A583-4167-9175-48563CEAA184} = {02E2C8A5-AFFF-4DC8-B33E-3F2ED2254075}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {95342B9B-E711-44E2-A7A8-F82D62BDAA9F}

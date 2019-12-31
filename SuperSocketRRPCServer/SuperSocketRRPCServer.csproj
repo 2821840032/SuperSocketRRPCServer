@@ -3,9 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Ming</Authors>
-    <Description>新增转发请求不会选择发送请求的session</Description>
+    <Description>修改异常BUG</Description>
     <PackageId>SuperSocketRRPCServer</PackageId>
-    <Version>1.1.6</Version>
+    <Version>1.1.7</Version>
     <PackageReleaseNotes>SuperSocket 封装的双向RPC通讯组件 很简陋 这是服务端</PackageReleaseNotes>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>

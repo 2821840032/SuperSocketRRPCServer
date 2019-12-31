@@ -43,7 +43,7 @@ namespace SuperSocketRRPCServer
 
             Type baseProvideServicesType = typeof(BaseProvideServices);
 
-            container = new UnityInIt<RRPCSession, RequestExecutiveInformation, RequestBaseInfo>(baseProvideServicesType.FullName,baseProvideServicesType.GetProperty("Socket"), baseProvideServicesType.GetProperty("Info"), baseProvideServicesType.GetProperty("RequestInfo"), baseProvideServicesType.GetProperty("Container"));
+            container = new UnityInIt<RRPCSession, RequestExecutiveInformation, RequestBaseInfo>(baseProvideServicesType.FullName,baseProvideServicesType.GetProperty("Socket"), baseProvideServicesType.GetProperty("Info"), baseProvideServicesType.GetProperty("RequestInfo"), baseProvideServicesType.GetProperty("Container"),baseProvideServicesType.GetProperty("RequestClientSession"));
 
 
             unityContainer = new UnityContainer();

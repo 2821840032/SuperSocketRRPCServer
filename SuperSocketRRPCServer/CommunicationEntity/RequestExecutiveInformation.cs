@@ -46,6 +46,10 @@ namespace SuperSocketRRPCServer.CommunicationEntity
         /// </summary>
         public Guid? RRPCSessionID { get; set; }
 
+        /// <summary>
+        /// 请求客户端Session
+        /// </summary>
+        public string RequestClientSession { get; set; }
 
     }
 }

@@ -113,6 +113,10 @@
     <None Include="supersocket.sh" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\SuperSocketRRPCClientProject\SuperSocketRRPCClientProject\IRPCClientService\IRPCClientService.csproj">
+      <Project>{172a52b3-a583-4167-9175-48563ceaa184}</Project>
+      <Name>IRPCClientService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\supersocketTest\supersocketTest\IRPCService\IRPCService.csproj">
       <Project>{608d7680-ce68-41fa-ae76-35417a1a20b1}</Project>
       <Name>IRPCService</Name>
